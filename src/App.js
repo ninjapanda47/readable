@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Post from './components/Post';
+import Modal from 'react-modal';
+import { getCategory, getAll  } from './utils/api'
 import './App.css';
 
 class App extends Component {
   render() {
+    const categories = ['React','Redux','Udacity']
+
+    getAll(this.value)
+      .then((data) =>{console.log(data)})  
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className='container'>
+        <h1>Categories</h1>
+        <div className='nav'>
+                  <ul className='header'>
+          {categories.map((category) => (
+            <li key={category} className='btn btn-default catbut' value ={category}>
+              {(category)}
+            </li>
+          ))}
+        </ul>
+        </div>
+        <div className='post-container'>
+          <Post/>
+
+        </div>
+
       </div>
     );
   }
