@@ -10,9 +10,9 @@ export default function Post({ category, onSelect }) {
                     <div className="panel-body">
                         <h4>Author</h4>
                         <p>Body</p>
-                        <span class="glyphicon glyphicon-thumbs-up vote" aria-hidden="true"></span>vote<span class="glyphicon glyphicon-thumbs-down vote" aria-hidden="true"></span>
+                        <span className="glyphicon glyphicon-thumbs-up vote" aria-hidden="true"></span>vote<span className="glyphicon glyphicon-thumbs-down vote" aria-hidden="true"></span>
                         <p></p>
-                        <a href="#" class="btn btn-info postbtn">Edit</a><a href="#" class="btn btn-danger postbtn">Delete</a>
+                        <a href="#" className="btn btn-info postbtn">Edit</a><a href="#" className="btn btn-danger postbtn">Delete</a>
                         <h4>comments</h4>
                     </div>
             </li>

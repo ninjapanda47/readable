@@ -8,6 +8,12 @@ const headers = {
     'Authorization': token
 }
 
+//get categories from server
+export const getCategories = () =>
+    fetch(`${api}/categories`, { headers })
+        .then(res => res.json())
+        .then(data => data)
+
 //get all post for one category
 export const getCategory = (category) =>
     fetch(`${api}/:${category}/posts`, { headers })

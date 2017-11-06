@@ -6,8 +6,12 @@
   margin-top: 20px;
 }
 
+.header {
+margin: 0 auto;
+}
+
 .catbut {
-  margin: auto 10px;
+  margin: auto 5px;
 }
 
 li {

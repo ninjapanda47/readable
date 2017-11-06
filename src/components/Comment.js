@@ -9,6 +9,7 @@ export default function Comment({ category, onSelect }) {
                     <h4>Author</h4>
                     <p>description</p>
                      <h4>Upvote</h4>
+                     <a href="#" class="btn btn-info postbtn">Edit</a><a href="#" class="btn btn-danger postbtn">Delete</a>
                 </div>
             </div>
 
