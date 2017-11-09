@@ -3,7 +3,7 @@
 }
 
 .nav {
-  margin-top: 20px;
+  margin: 20px auto;
 }
 
 .header {
@@ -33,7 +33,12 @@ padding: 5px;
 
 .postbtn {
   width: 75px;
-  margin: auto 5px;
+  margin: 0 5px 10px 5px;
+}
+
+.postlist {
+  display: flex;
+  flex-direction: row;
 }
 
 .vote {

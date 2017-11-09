@@ -1,21 +1,25 @@
 import React from 'react'
 import Comment from './Comment';
 
-export default function Post({ category, onSelect }) {
+export default function Post({ post, category, onSelect }) {
 
     return (
         <ul className='postlist'>
-            <li className="panel panel-default post">
-                    <div className="panel-heading">Title</div>
+            {post.map((item) => (
+                <li className="panel panel-default post" key={item.id}>
+                    <div className="panel-heading">Title: {item.title}</div>
                     <div className="panel-body">
-                        <h4>Author</h4>
-                        <p>Body</p>
-                        <span className="glyphicon glyphicon-thumbs-up vote" aria-hidden="true"></span>vote<span className="glyphicon glyphicon-thumbs-down vote" aria-hidden="true"></span>
-                        <p></p>
+                        <p>Author: {item.author}</p>
+                        <p>{item.body}</p>
+                        <p>Votes: {item.voteScore}</p>
                         <a href="#" className="btn btn-info postbtn">Edit</a><a href="#" className="btn btn-danger postbtn">Delete</a>
-                        <h4>comments</h4>
+                        <p>{item.commentCount} comments</p>
                     </div>
-            </li>
+                </li>
+            )
+
+            )}
+
         </ul>
     )
 }
