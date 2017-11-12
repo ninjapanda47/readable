@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Comment({ category, onSelect }) {
+export default function Comment({ id, onSelect }) {
 
     return (
         <ul className='comment'>
