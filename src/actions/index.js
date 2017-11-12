@@ -4,6 +4,7 @@ export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const ADD_POST = 'ADD_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const UPDATE_VOTE = 'UPDATE_VOTE'
+export const SELECT_CATEGORY = 'SELECT_CATEGORY'
 
 export function addComment ({id,timestamp,title,body,author,voteScore,parentDeleted,deleted}) {
   return {
@@ -55,4 +56,11 @@ export function updateVote ({id}) {
     id
 
   }
+}
+
+export function selectCategory ({category}) {
+ return {
+     type: SELECT_CATEGORY,
+     category
+ }
 }
