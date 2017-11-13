@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import Post from './components/Post';
 import Create from './components/Create';
 import Modal from 'react-modal';
@@ -23,28 +24,14 @@ class App extends Component {
       console.log(data.categories);
       console.log(this.state)
     })
- /*   getAll().then((data)=>{
-      this.setState({ post: data});
-      console.log(data);
-      console.log(this.state);
-      console.log(this)
-    })*/
-  }
-
-  getAll = (e) => {
-    if (this.state.category == null) {
-      return
-    }
-    e.preventDefault()
-    this.setState(() => ({ firstload: true }))
-      getAll().then((data)=>{
+   getAll().then((data)=>{
       this.setState({ post: data});
       console.log(data);
       console.log(this.state);
       console.log(this)
     })
-
   }
+
 
 
   render() {
@@ -78,3 +65,4 @@ class App extends Component {
 }
 
 export default App;
+/*export default connect (App);*/

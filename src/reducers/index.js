@@ -11,13 +11,6 @@ import {
     GETALL
 } from '../actions'
 
-const initialstate = {};
-
-getAll().then((data)=>{
-      initialstate = data;
-      console.log(data);
-    })
-
 function post(state = {}, action) {
     switch (action.type) {
         case GETALL:
