@@ -85,20 +85,17 @@ function receivePost(post) {
 }
 
 export function getall(post) {
-
-  return function (dispatch) {
-    dispatch(requestPosts(post))
-
-    readAPI.getAll()
-      .then(
-        response => response.json(),
-        error => console.log('An error occured.', error)
-      )
-      .then(json =>
+    return function(dispatch){
         dispatch(receivePost(post))
-      )
+        readAPI.getAll()
+        .then(
+            post => receivePost(post),
+            error => console.log('An error occured', error)
+        )
+    }
+      
   }
-}
+
 /*
 export function getall (post) {
  return {
