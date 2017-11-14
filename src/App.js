@@ -31,7 +31,7 @@ class App extends Component {
       console.log(this.state);
       console.log(this)
     })*/
-    this.props.getAllPost();
+    this.props.getAllPost()
   }
 
 
@@ -75,8 +75,8 @@ function mapStateToProps({post}){
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAllPost: () => dispatch(getall()),
-    selectCategory: (data) => dispatch(selectCategory(data))
+    getAllPost: getall,
+    selectCategory: selectCategory
   }
 }
 
