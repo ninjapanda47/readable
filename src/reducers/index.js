@@ -1,6 +1,5 @@
 
 import { combineReducers } from 'redux'
-import { getAll } from '../utils/api'
 import {
     ADD_COMMENT,
     DELETE_COMMENT,
@@ -12,11 +11,12 @@ import {
 } from '../actions'
 
 function post(state = {}, action) {
+     const {post} = action
+
     switch (action.type) {
         case GETALL:
-            const {post} = action
             return {
-                ...state, post: post 
+                ...state, post
             }
         case  SELECT_CATEGORY:
         const {category} = action

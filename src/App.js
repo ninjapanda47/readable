@@ -4,7 +4,7 @@ import Post from './components/Post';
 import Create from './components/Create';
 import Modal from 'react-modal';
 import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall } from './actions'
-import { getCategory, getAll, getCategories } from './utils/api'
+import * as readAPI from './utils/api'
 import { Route, Link } from 'react-router-dom'
 import './App.css';
 
@@ -19,24 +19,27 @@ class App extends Component {
   }
 
   componentDidMount() {
-    getCategories().then((data) => {
+    readAPI.getCategories().then((data) => {
       this.setState({ categories: data.categories });
       console.log(data.categories);
       console.log(this.state)
+      console.log(this.props)
     })
-   getAll().then((data)=>{
+   /*getAll().then((data)=>{
       this.setState({ post: data});
       console.log(data);
       console.log(this.state);
       console.log(this)
-    })
+    })*/
+    this.props.getAllPost();
   }
 
 
 
   render() {
 
-    const { category } = this.state
+    const { category, post } = this.state
+    const { getAllPost } = this.props
 
     return (
       <div className='containter-fluid'>
@@ -64,5 +67,17 @@ class App extends Component {
   }
 }
 
-export default App;
-/*export default connect (App);*/
+function mapStateToProps({post}){
+  return {
+    post: post
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getAllPost: () => dispatch(getall()),
+    selectCategory: (data) => dispatch(selectCategory(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
