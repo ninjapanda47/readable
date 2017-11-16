@@ -1,6 +1,7 @@
 import * as readAPI from '../utils/api'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const GETALLCOMMENTS = 'GETALLCOMMENTS'
 export const ADD_POST = 'ADD_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const UPDATE_VOTE = 'UPDATE_VOTE'
@@ -77,33 +78,36 @@ function requestPosts(post) {
 }
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-function receivePost(post) {
+function receivePosts(post) {
   return {
     type: RECEIVE_POSTS,
     post
   }
 }
 
-export function getall(post) {
+export function getall() {
     return function(dispatch){
-        dispatch(receivePost(post))
         readAPI.getAll()
         .then(
-            post => receivePost(post),
+            post => dispatch(receivePosts(post)),
             error => console.log('An error occured', error)
         )
     }
       
   }
 
-/*
-export function getall (post) {
- return {
-     type: GETALL,
-     post
- }
+export function getAllComments ({id}) {
+  return {
+    type: GETALLCOMMENTS,
+    id
+  }
 }
-*/
 
-
+export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+function receiveComments(comment) {
+  return {
+    type: RECEIVE_COMMENTS,
+    comment
+  }
+}
 

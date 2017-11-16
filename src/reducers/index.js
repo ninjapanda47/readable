@@ -7,34 +7,57 @@ import {
     DELETE_POST,
     UPDATE_VOTE,
     SELECT_CATEGORY,
-    GETALL
+    GETALL,
+    RECEIVE_POSTS,
+    REQUEST_POSTS,
+    RECEIVE_COMMENTS,
+    GETALLCOMMENTS
 } from '../actions'
 
-function post(state = {}, action) {
-     const {post} = action
+function post(state = [], action) {
+    const { post } = action
 
     switch (action.type) {
         case GETALL:
             return {
                 ...state, post
             }
-        case  SELECT_CATEGORY:
-        const {category} = action
-        return {
-            ...state, category: category
+        case RECEIVE_POSTS: {
+            return post
         }
-
-        case ADD_COMMENT:
-            const { comment } = action
-
+        case REQUEST_POSTS: {
             return {
-                ...state,
+                ...state, post
             }
+        }
+        case SELECT_CATEGORY:
+            const { category } = action
+            return {
+                ...state, category: category
+            }
+
+        default:
+            return state
+    }
+}
+
+function comment(state = {}, action) {
+    const { comment } = action
+    switch (action.type) {
+        case GETALLCOMMENTS:
+            return {
+                ...state, comment
+            }
+        case RECEIVE_COMMENTS: {
+            return {
+                ...state, comment: action.comment
+            }
+        }
         default:
             return state
     }
 }
 
 export default combineReducers({
-post
+    post, comment
 })

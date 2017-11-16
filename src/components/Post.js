@@ -1,11 +1,10 @@
 import React from 'react'
 import Comment from './Comment';
 
-export default function Post({ post, category, onSelect }) {
-
+export default function Post({ post }) {
     return (
         <ul className='postlist'>
-            {post.map((item) => (
+            {post && post.map((item) => (
                 <li className='panel panel-default post' key={item.id}>
                     <div className='panel-heading'>Title: {item.title}</div>
                     <div className='panel-body'>

@@ -13,9 +13,7 @@ class App extends Component {
   state = {
     categories: [],
     category: null,
-    post: [],
-    create: [],
-    firstload: false
+    post: []
   }
 
   componentDidMount() {
@@ -23,23 +21,15 @@ class App extends Component {
       this.setState({ categories: data.categories });
       console.log(data.categories);
       console.log(this.state)
-      console.log(this.props)
     })
-   /*getAll().then((data)=>{
-      this.setState({ post: data});
-      console.log(data);
-      console.log(this.state);
-      console.log(this)
-    })*/
     this.props.getAllPost()
   }
 
-
-
   render() {
 
-    const { category, post } = this.state
-    const { getAllPost } = this.props
+    const { category } = this.state
+    const { getAllPost, post } = this.props
+    console.log("lla" + this.props.post)
 
     return (
       <div className='containter-fluid'>
@@ -56,7 +46,7 @@ class App extends Component {
           </div>
         </div>
         <div className='post-container'>
-          <Post post={this.state.post}/>
+          <Post post={post}/>
         </div>
         <Route path='/newpost' render={() => (
           <Create create = {this.state.create}/>
@@ -75,7 +65,7 @@ function mapStateToProps({post}){
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAllPost: getall,
+    getAllPost: () => dispatch(getall()),
     selectCategory: selectCategory
   }
 }
