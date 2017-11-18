@@ -26,11 +26,17 @@ class App extends Component {
     this.props.getAllPost()
   }
 
+selectCategory(e) {
+  const category = e
+  console.log(category)
+  this.props.getCategoryPost(category)
+}
+
   render() {
 
     const { category } = this.state
     const { getAllPost, post } = this.props
-    console.log("lla" + this.props.post)
+    console.log("inside render" + this.props.post)
 
     return (
       <div className='containter-fluid'>
@@ -45,7 +51,7 @@ class App extends Component {
           </Nav>
           <Nav bsStyle="pills" activeKey={1} pullRight>
             {this.state.categories.map((category) => (
-              <NavItem key={category.name} eventKey={2} value={category.name} onClick={(e) => this.selectCategory(e)}>
+              <NavItem key={category.name} eventKey={2} onClick={(e) => this.selectCategory((category.name))}>
                 {(category.name)}
               </NavItem>
             ))}
@@ -55,13 +61,14 @@ class App extends Component {
             </NavDropdown>
           </Nav>
         </Navbar>
-        <div className='post-container'>
-          <Post post={post} />
-        </div>
+        <Route exact path='/' render={() => (
+          <div className='post-container'>
+            <Post post={post} />
+          </div>
+        )} />
         <Route path='/newpost' render={() => (
           <Create create={this.state.create} />
         )} />
-
       </div>
     );
   }
@@ -76,7 +83,7 @@ function mapStateToProps({ post }) {
 function mapDispatchToProps(dispatch) {
   return {
     getAllPost: () => dispatch(getall()),
-    selectCategory: selectCategory
+    getCategoryPost: (category) => dispatch(selectCategory(category))
   }
 }
 

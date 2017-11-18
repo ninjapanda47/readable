@@ -16,7 +16,6 @@ import {
 
 function post(state = [], action) {
     const { post } = action
-
     switch (action.type) {
         case GETALL:
             return {
@@ -25,15 +24,9 @@ function post(state = [], action) {
         case RECEIVE_POSTS: {
             return post
         }
-        case REQUEST_POSTS: {
+        case SELECT_CATEGORY:
             return {
                 ...state, post
-            }
-        }
-        case SELECT_CATEGORY:
-            const { category } = action
-            return {
-                ...state, category: category
             }
 
         default:

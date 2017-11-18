@@ -9,7 +9,7 @@ export const SELECT_CATEGORY = 'SELECT_CATEGORY'
 export const GETALL = 'GETALL'
 
 
-export function addComment ({id,timestamp,title,body,author,voteScore,parentDeleted,deleted}) {
+export function addComment({ id, timestamp, title, body, author, voteScore, parentDeleted, deleted }) {
   return {
     type: ADD_COMMENT,
     id,
@@ -23,7 +23,7 @@ export function addComment ({id,timestamp,title,body,author,voteScore,parentDele
   }
 }
 
-export function deleteComment ({id}) {
+export function deleteComment({ id }) {
   return {
     type: DELETE_COMMENT,
     id
@@ -31,7 +31,7 @@ export function deleteComment ({id}) {
   }
 }
 
-export function addPost ({id,timestamp,title,body,author,category,voteScore,deleted}) {
+export function addPost({ id, timestamp, title, body, author, category, voteScore, deleted }) {
   return {
     type: ADD_POST,
     id,
@@ -45,7 +45,7 @@ export function addPost ({id,timestamp,title,body,author,category,voteScore,dele
   }
 }
 
-export function deletePost ({id}) {
+export function deletePost({ id }) {
   return {
     type: DELETE_POST,
     id
@@ -53,7 +53,7 @@ export function deletePost ({id}) {
   }
 }
 
-export function updateVote ({id}) {
+export function updateVote({ id }) {
   return {
     type: UPDATE_VOTE,
     id
@@ -61,19 +61,13 @@ export function updateVote ({id}) {
   }
 }
 
-export function selectCategory ({category, post}) {
- return {
-     type: SELECT_CATEGORY,
-     category,
-     post
- }
-}
-
-export const REQUEST_POSTS = 'REQUEST_POSTS'
-function requestPosts(post) {
-  return {
-    type: REQUEST_POSTS,
-    post
+export function selectCategory({category}) {
+  return function (dispatch) {
+    console.log(category)
+    readAPI.getCategory(category).then(
+      post => dispatch(receivePosts(post)),
+      error => console.log('An error occured', error)
+    )
   }
 }
 
@@ -86,17 +80,17 @@ function receivePosts(post) {
 }
 
 export function getall() {
-    return function(dispatch){
-        readAPI.getAll()
-        .then(
-            post => dispatch(receivePosts(post)),
-            error => console.log('An error occured', error)
-        )
-    }
-      
+  return function (dispatch) {
+    readAPI.getAll()
+      .then(
+      post => dispatch(receivePosts(post)),
+      error => console.log('An error occured', error)
+      )
   }
 
-export function getAllComments ({id}) {
+}
+
+export function getAllComments({ id }) {
   return {
     type: GETALLCOMMENTS,
     id
