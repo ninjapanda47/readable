@@ -7,6 +7,7 @@ import { addPost, deletePost, addComment, deleteComment, updateVote, selectCateg
 import * as readAPI from './utils/api'
 import { Route, Link } from 'react-router-dom'
 import './App.css';
+import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 class App extends Component {
 
@@ -33,23 +34,32 @@ class App extends Component {
 
     return (
       <div className='containter-fluid'>
-        <div className='navbar navbar-expand-lg navbar-dark bg-primary'>
-          <a href='#' className='navbar-brand'>Readable</a><a href='#' className='nav-link nav-item'>New Post</a>
-          <div className='nav pull-right'>
-          <ul className='categories'>
+        <Navbar inverse>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href='#'>Readable</a>
+            </Navbar.Brand>
+          </Navbar.Header>
+          <Nav>
+            <NavItem href="/newpost">Add Post</NavItem>
+          </Nav>
+          <Nav bsStyle="pills" activeKey={1} pullRight>
             {this.state.categories.map((category) => (
-              <li key={category.name} className='btn btn-light catbut' value={category.name} onClick={(e) =>this.selectCategory(e)}>
+              <NavItem key={category.name} eventKey={2} value={category.name} onClick={(e) => this.selectCategory(e)}>
                 {(category.name)}
-              </li>
+              </NavItem>
             ))}
-          </ul>
-          </div>
-        </div>
+            <NavDropdown eventKey={3} title="Order By" id="basic-nav-dropdown">
+              <MenuItem eventKey={3.1}>Vote Score</MenuItem>
+              <MenuItem eventKey={3.2}>Time Stamp</MenuItem>
+            </NavDropdown>
+          </Nav>
+        </Navbar>
         <div className='post-container'>
-          <Post post={post}/>
+          <Post post={post} />
         </div>
         <Route path='/newpost' render={() => (
-          <Create create = {this.state.create}/>
+          <Create create={this.state.create} />
         )} />
 
       </div>
@@ -57,7 +67,7 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({post}){
+function mapStateToProps({ post }) {
   return {
     post: post
   }
