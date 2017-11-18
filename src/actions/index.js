@@ -61,7 +61,7 @@ export function updateVote({ id }) {
   }
 }
 
-export function selectCategory({category}) {
+export function selectCategory(category) {
   return function (dispatch) {
     console.log(category)
     readAPI.getCategory(category).then(

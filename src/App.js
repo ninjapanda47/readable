@@ -83,7 +83,7 @@ function mapStateToProps({ post }) {
 function mapDispatchToProps(dispatch) {
   return {
     getAllPost: () => dispatch(getall()),
-    getCategoryPost: (category) => dispatch(selectCategory(category))
+    getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category))
   }
 }
 
