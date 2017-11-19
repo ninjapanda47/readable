@@ -44,7 +44,7 @@ selectCategory(e) {
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/">Readable</Link>
+              <a href='/'>Readable</a>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
