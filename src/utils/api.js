@@ -39,7 +39,7 @@ export const addPost = () =>
 
 //update vote
 export const vote = () =>
-    fetch(`${api}/posts/:id`, {
+    fetch(`${api}/posts/id`, {
         method: 'POST',
         headers: {
             ...headers,

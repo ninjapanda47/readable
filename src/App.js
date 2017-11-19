@@ -29,7 +29,8 @@ class App extends Component {
 selectCategory(e) {
   const category = e
   console.log(category)
-  this.props.getCategoryPost(category)
+  this.props.getCategoryPost(category);
+  this.setState({ post: this.props.post})
 }
 
   render() {
@@ -43,19 +44,19 @@ selectCategory(e) {
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href='#'>Readable</a>
+              <Link to="/">Readable</Link>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <NavItem href="/newpost">Add Post</NavItem>
+            <NavItem href='/newpost'>Add Post</NavItem>
           </Nav>
-          <Nav bsStyle="pills" activeKey={1} pullRight>
+          <Nav bsStyle='pills' activeKey={1} pullRight>
             {this.state.categories.map((category) => (
-              <NavItem key={category.name} eventKey={2} onClick={(e) => this.selectCategory((category.name))}>
-                {(category.name)}
+              <NavItem key={category.name} eventKey={2} onClick={(e) => this.selectCategory((category.name))}><Link to="/">
+                {(category.name)}</Link>
               </NavItem>
             ))}
-            <NavDropdown eventKey={3} title="Order By" id="basic-nav-dropdown">
+            <NavDropdown eventKey={3} title='Order By' id='basic-nav-dropdown'>
               <MenuItem eventKey={3.1}>Vote Score</MenuItem>
               <MenuItem eventKey={3.2}>Time Stamp</MenuItem>
             </NavDropdown>

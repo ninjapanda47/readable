@@ -1,24 +1,45 @@
 import React from 'react'
+import { FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
 
 export default function Create({ category, onSelect }) {
-
+    function FieldGroup({ id, label, help, ...props }) {
+        return (
+            <FormGroup controlId={id}>
+                <ControlLabel>{label}</ControlLabel>
+                <FormControl {...props} />
+                {help && <HelpBlock>{help}</HelpBlock>}
+            </FormGroup>
+        );
+    }
     return (
-        <div className='card'>
-            <h3 className='card-header'>New Post</h3>
-            <div className='form-group'>
-                <label>Title</label>
-                <input type='text' className='form-control'></input>
-                <label>Author</label>
-                <input type='text' className='form-control'></input>
-                <label>Category</label>
-                <select className='form-control'>
-                    <option>React</option>
-                    <option>Redux</option>
-                    <option>Udacity</option>
-                </select>
-                <textarea type='text' className='form-control' rows='3'></textarea>
-            </div>
-            <button type='submit' className='btn btn-primary'>Submit</button>
-        </div>
+        <form>
+            <FieldGroup
+                id="formControlsText"
+                type="text"
+                label="Title"
+                placeholder="Enter text"
+            />
+            <FieldGroup
+                id="formControlsText"
+                type="text"
+                label="Author"
+                placeholder="Enter text"
+            />
+            <FormGroup controlId="formControlsSelect">
+                <ControlLabel>Select Category</ControlLabel>
+                <FormControl componentClass="select" placeholder="select">
+                    <option value="React">React</option>
+                    <option value="Redux">Redux</option>
+                    <option value="Udacity">Udacity</option>
+                </FormControl>
+            </FormGroup>
+            <FormGroup controlId="formControlsTextarea">
+                <ControlLabel>Post</ControlLabel>
+                <FormControl componentClass="textarea" placeholder="What's on your mind" />
+            </FormGroup>
+            <Button bsStyle="primary" type="submit">
+                Submit
+    </Button>
+        </form>
     )
 }
