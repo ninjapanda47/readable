@@ -33,7 +33,7 @@ class App extends Component {
     this.setState({ post: this.props.post })
   }
 
-  openModal = ({ id }) => {
+  openModal = (id) => {
     console.log('clicked', id);
     this.setState(() => ({
       showModal: true,
