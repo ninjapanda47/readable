@@ -26,6 +26,12 @@ export const getAll = () =>
         .then(res => res.json())
         .then(data => data)
 
+//get all comments
+export const getComments = (id) =>
+    fetch(`${api}/posts/${id}/comments`, { headers })
+        .then(res => res.json())
+        .then(data => data)
+
 //add new post
 export const addPost = () =>
     fetch(`${api}/posts`, {
@@ -38,8 +44,8 @@ export const addPost = () =>
     }).then(res => res.json())
 
 //update vote
-export const vote = () =>
-    fetch(`${api}/posts/id`, {
+export const vote = (id) =>
+    fetch(`${api}/posts/${id}`, {
         method: 'POST',
         headers: {
             ...headers,

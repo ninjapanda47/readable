@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Post from './components/Post';
 import Create from './components/Create';
+import Comment from './components/Comment';
 import Modal from 'react-modal';
 import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall } from './actions'
 import * as readAPI from './utils/api'
@@ -14,30 +15,42 @@ class App extends Component {
   state = {
     categories: [],
     category: null,
-    post: []
+    post: [],
+    comment: [],
+    showModal: false
   }
 
   componentDidMount() {
     readAPI.getCategories().then((data) => {
       this.setState({ categories: data.categories });
-      console.log(data.categories);
-      console.log(this.state)
     })
     this.props.getAllPost()
   }
 
-selectCategory(e) {
-  const category = e
-  console.log(category)
-  this.props.getCategoryPost(category);
-  this.setState({ post: this.props.post})
-}
+  selectCategory(e) {
+    const category = e
+    this.props.getCategoryPost(category);
+    this.setState({ post: this.props.post })
+  }
+
+  openModal = ({ id, comment }) => {
+    this.setState(() => ({
+      showModal: true,
+      comment
+    }))
+  }
+  closeModal = () => {
+    this.setState(() => ({
+      showModal: false,
+      comment: []
+    }))
+  }
 
   render() {
 
-    const { category } = this.state
+    const { category, showModal } = this.state
     const { getAllPost, post } = this.props
-    console.log("inside render" + this.props.post)
+    console.log(this)
 
     return (
       <div className='containter-fluid'>
@@ -64,7 +77,19 @@ selectCategory(e) {
         </Navbar>
         <Route exact path='/' render={() => (
           <div className='post-container'>
-            <Post post={post} />
+            <Post post={post}             
+            openModal={(id) => {
+            this.openModal(id)
+            }}
+            />
+            <Modal
+              className='modal'
+              overlayClassName='overlay'
+              isOpen={showModal}
+              onRequestClose={this.closeModal}
+              contentLabel='Modal'
+            ><Comment/>
+            </Modal>
           </div>
         )} />
         <Route path='/newpost' render={() => (
@@ -75,9 +100,10 @@ selectCategory(e) {
   }
 }
 
-function mapStateToProps({ post }) {
+function mapStateToProps({ post, comment }) {
   return {
-    post: post
+    post: post,
+    comment: comment
   }
 }
 

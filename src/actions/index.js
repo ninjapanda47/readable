@@ -90,7 +90,7 @@ export function getall() {
 
 }
 
-export function getAllComments({ id }) {
+export function getAllComments(id) {
   return {
     type: GETALLCOMMENTS,
     id

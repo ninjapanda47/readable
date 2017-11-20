@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
 
-export default function Create({ category, onSelect }) {
+export default function Create() {
     function FieldGroup({ id, label, help, ...props }) {
         return (
             <FormGroup controlId={id}>

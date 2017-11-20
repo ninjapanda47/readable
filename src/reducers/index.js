@@ -43,7 +43,7 @@ function comment(state = {}, action) {
             }
         case RECEIVE_COMMENTS: {
             return {
-                ...state, comment: action.comment
+                ...state, comment
             }
         }
         default:

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Panel, Button } from 'react-bootstrap';
 
-export default function Comment({ id, onSelect }) {
+export default function Comment({ id }) {
 
     return (
         <ul className='comment'>
