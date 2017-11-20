@@ -33,12 +33,14 @@ class App extends Component {
     this.setState({ post: this.props.post })
   }
 
-  openModal = ({ id, comment }) => {
+  openModal = ({ id }) => {
+    console.log('clicked', id);
     this.setState(() => ({
       showModal: true,
-      comment
-    }))
+      comment: this.props.comment
+    }));
   }
+
   closeModal = () => {
     this.setState(() => ({
       showModal: false,
@@ -77,10 +79,10 @@ class App extends Component {
         </Navbar>
         <Route exact path='/' render={() => (
           <div className='post-container'>
-            <Post post={post}             
-            openModal={(id) => {
-            this.openModal(id)
-            }}
+            <Post post={post}
+              openModal={(id) => {
+                this.openModal(id)
+              }}
             />
             <Modal
               className='modal'
@@ -88,7 +90,7 @@ class App extends Component {
               isOpen={showModal}
               onRequestClose={this.closeModal}
               contentLabel='Modal'
-            ><Comment/>
+            ><Comment />
             </Modal>
           </div>
         )} />
