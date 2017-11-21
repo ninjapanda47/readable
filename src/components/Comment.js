@@ -7,7 +7,6 @@ export default function Comment({ comment }) {
         <ul className='commentlist'>
             {comment && comment.map((item) => (
             <Panel className='comment' key={item.id}>
-                {item.parentId}
                 <p>{item.author}</p>
                 <p>{item.body}</p>
                 <p>{item.voteScore}</p>

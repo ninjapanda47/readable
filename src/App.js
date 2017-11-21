@@ -85,12 +85,12 @@ class App extends Component {
               }}
             />
             <Modal
-              className='modal'
-              overlayClassName='overlay'
               isOpen={showModal}
               onRequestClose={this.closeModal}
               contentLabel='Modal'
             >{showModal && <Comment comment={comment} />}
+            <Button bsSize='small' onClick={this.closeModal}>Close</Button>
+            <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
             </Modal>
           </div>
         )} />
