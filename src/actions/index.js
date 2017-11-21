@@ -91,9 +91,12 @@ export function getall() {
 }
 
 export function getAllComments(id) {
-  return {
-    type: GETALLCOMMENTS,
-    id
+  return function (dispatch) {
+    readAPI.getComments(id)
+    .then(
+      comment => dispatch(receiveComments(comment)),
+      error => console.log('An error occured', error)
+    )
   }
 }
 

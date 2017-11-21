@@ -4,7 +4,7 @@ import Post from './components/Post';
 import Create from './components/Create';
 import Comment from './components/Comment';
 import Modal from 'react-modal';
-import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall } from './actions'
+import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments } from './actions'
 import * as readAPI from './utils/api'
 import { Route, Link } from 'react-router-dom'
 import './App.css';
@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   openModal = (id) => {
-    console.log('clicked', id);
+    this.props.getPostComments(id);
     this.setState(() => ({
       showModal: true,
       comment: this.props.comment
@@ -51,7 +51,7 @@ class App extends Component {
   render() {
 
     const { category, showModal } = this.state
-    const { getAllPost, post } = this.props
+    const { getAllPost, post, getPostComments, getCategoryPost, comment } = this.props
     console.log(this)
 
     return (
@@ -90,7 +90,7 @@ class App extends Component {
               isOpen={showModal}
               onRequestClose={this.closeModal}
               contentLabel='Modal'
-            ><Comment />
+            >{showModal && <Comment comment={comment} />}
             </Modal>
           </div>
         )} />
@@ -112,7 +112,8 @@ function mapStateToProps({ post, comment }) {
 function mapDispatchToProps(dispatch) {
   return {
     getAllPost: () => dispatch(getall()),
-    getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category))
+    getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category)),
+    getPostComments: (id) => dispatch(getAllComments(id), console.log(id))
   }
 }
 

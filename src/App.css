@@ -22,13 +22,13 @@ li {
 }
 
 .postbtn {
-  margin: 0 5px 0 0;
+  margin: 0 5px 5px 0;
 }
 .vote {
   margin: auto 10px;
 }
 
-.comment {
+.commentlist {
   margin: 10px auto;
   padding: 5px;
 }

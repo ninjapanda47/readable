@@ -34,7 +34,7 @@ function post(state = [], action) {
     }
 }
 
-function comment(state = {}, action) {
+function comment(state = [], action) {
     const { comment } = action
     switch (action.type) {
         case GETALLCOMMENTS:
@@ -42,9 +42,7 @@ function comment(state = {}, action) {
                 ...state, comment
             }
         case RECEIVE_COMMENTS: {
-            return {
-                ...state, comment
-            }
+            return comment       
         }
         default:
             return state
