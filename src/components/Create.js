@@ -3,21 +3,20 @@ import { FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-b
 
 class Create extends Component {
     state = {
-        title: null,
-        author: null,
-        category: null,
-        body: null
+        title: '',
+        author: '',
+        category: '',
+        body: ''
     }
 
-  handleInputChange(event) {
-/*
+  handleInputChange = (event) =>{
     const value = event.target.value;
     const name = event.target.name;
 
     this.setState({
-      name: value
+      [name]: value,
     });
-*/
+
     console.log(event.target.value)
     console.log(event.target.name)
   }
@@ -45,6 +44,7 @@ class Create extends Component {
                     type="text"
                     label="Title"
                     name='title'
+                    value={this.state.title}  
                     placeholder="Enter text"
                     onChange={this.handleInputChange}
                 />
