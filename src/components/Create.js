@@ -35,13 +35,14 @@ class Create extends Component {
         });
     };
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        const newPost = this.state
-        newPost.timestamp = Date.now();
-        newPost.id = uuidv4();
-        console.log(newPost)
-    }
+  handleSubmit = event => {
+    event.preventDefault();
+    const newPost = this.state;
+    newPost.timestamp = Date.now();
+    newPost.id = uuidv4();
+    console.log(newPost);
+    this.props.onSubmit(newPost);
+  };
 
     render() {
 

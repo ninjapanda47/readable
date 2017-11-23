@@ -6,7 +6,7 @@ import Comment from './components/Comment';
 import Modal from 'react-modal';
 import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments } from './actions'
 import * as readAPI from './utils/api'
-import { Route, Link, Redirect } from 'react-router-dom'
+import { Route, Link, Redirect, withRouter } from 'react-router-dom'
 import './App.css';
 import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
@@ -50,15 +50,16 @@ class App extends Component {
     }))
   }
 
-  createPost = (newPost) => {
-    this.props.addNewPost(newPost),
-    this.setState({ post: this.props.post },{fireRedirect: true})
-  }
+  createPost = newPost => {
+    this.props.addNewPost(newPost);
+    this.setState({post: this.props.post, fireRedirect: true});
+  };
 
   render() {
 
-    const { category, showModal, fireRedirect} = this.state
+    const { category, showModal, fireRedirect } = this.state
     const { getAllPost, post, getPostComments, getCategoryPost, comment } = this.props
+    
     console.log(this)
 
     if (this.state.fireRedirect) {
@@ -76,7 +77,7 @@ class App extends Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <NavItem href='/newpost'>Add Post</NavItem>
+            <NavItem>< Link to='/newpost'>Add Post</Link></NavItem>
           </Nav>
           <Nav bsStyle='pills' activeKey={1} pullRight>
             {this.state.categories.map((category) => (
@@ -107,9 +108,10 @@ class App extends Component {
             </Modal>
           </div>
         )} />
-        <Route path='/newpost' render={() => (
-          <Create create={this.state.create} onSubmit={this.createPost(newPost)}/>
-        )} />
+        <Route
+          path="/newpost"
+          render={() => <Create onSubmit={this.createPost} />}
+        />
       </div>
     );
   }
@@ -131,4 +133,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
