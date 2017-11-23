@@ -9,17 +9,9 @@ export const SELECT_CATEGORY = 'SELECT_CATEGORY'
 export const GETALL = 'GETALL'
 
 
-export function addComment({ id, timestamp, title, body, author, voteScore, parentDeleted, deleted }) {
+export function addComment() {
   return {
     type: ADD_COMMENT,
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    voteScore,
-    parentDeleted,
-    deleted
   }
 }
 
@@ -28,13 +20,6 @@ export function deleteComment({ id }) {
     type: DELETE_COMMENT,
     id
 
-  }
-}
-
-export function addPost(newPost) {
-  return {
-    type: ADD_POST,
-    newPost
   }
 }
 
@@ -83,13 +68,25 @@ export function getall() {
 
 }
 
+export function addPost(newPost) {
+  return function (dispatch) {
+    readAPI.addPost(newPost)
+      .then(
+      readAPI.getAll().then(
+        post => dispatch(receivePosts(post)),
+        error => console.log('An error occured', error)
+      )
+      )
+  }
+}
+
 export function getAllComments(id) {
   return function (dispatch) {
     readAPI.getComments(id)
-    .then(
+      .then(
       comment => dispatch(receiveComments(comment)),
       error => console.log('An error occured', error)
-    )
+      )
   }
 }
 

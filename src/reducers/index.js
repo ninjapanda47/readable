@@ -1,4 +1,4 @@
-
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import {
     ADD_COMMENT,
@@ -54,5 +54,5 @@ function comment(state = [], action) {
 }
 
 export default combineReducers({
-    post, comment
+    post, comment, router: routerReducer
 })

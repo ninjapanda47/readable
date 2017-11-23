@@ -18,7 +18,6 @@ class App extends Component {
     post: [],
     comment: [],
     showModal: false,
-    fireRedirect: false,
     newPost: {}
   }
 
@@ -52,21 +51,15 @@ class App extends Component {
 
   createPost = newPost => {
     this.props.addNewPost(newPost);
-    this.setState({post: this.props.post, fireRedirect: true});
+    this.props.getAllPost()
+    this.props.history.push('/')
   };
 
   render() {
 
-    const { category, showModal, fireRedirect } = this.state
-    const { getAllPost, post, getPostComments, getCategoryPost, comment } = this.props
-    
+    const { category, showModal} = this.state
+    const { getAllPost, post, getPostComments, getCategoryPost, comment } = this.props   
     console.log(this)
-
-    if (this.state.fireRedirect) {
-      return (
-        <Redirect to="/" />
-      )
-    }
 
     return (
       <div className='containter-fluid'>
