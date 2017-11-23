@@ -28,6 +28,10 @@ function post(state = [], action) {
             return {
                 ...state, post
             }
+        case ADD_POST:
+            return {
+                ...state, post
+            }
 
         default:
             return state
@@ -42,7 +46,7 @@ function comment(state = [], action) {
                 ...state, comment
             }
         case RECEIVE_COMMENTS: {
-            return comment       
+            return comment
         }
         default:
             return state

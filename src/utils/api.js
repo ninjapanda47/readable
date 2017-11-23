@@ -33,7 +33,7 @@ export const getComments = (id) =>
         .then(data => data)
 
 //add new post
-export const addPost = () =>
+export const addPost = (newPost) =>
     fetch(`${api}/posts`, {
         method: 'POST',
         headers: {
@@ -53,7 +53,7 @@ export const vote = (id) =>
         },
         body: JSON.stringify({})
     }).then(res => res.json())
-        .then(data => data.post)
+        .then(data => data)
 
 //add comment
 export const addComment = () =>
@@ -65,4 +65,4 @@ export const addComment = () =>
         },
         body: JSON.stringify({})
     }).then(res => res.json())
-        .then(data => data.post)
+        .then(data => data)

@@ -6,7 +6,7 @@ import Comment from './components/Comment';
 import Modal from 'react-modal';
 import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments } from './actions'
 import * as readAPI from './utils/api'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Redirect } from 'react-router-dom'
 import './App.css';
 import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
@@ -17,7 +17,9 @@ class App extends Component {
     category: null,
     post: [],
     comment: [],
-    showModal: false
+    showModal: false,
+    fireRedirect: false,
+    newPost: {}
   }
 
   componentDidMount() {
@@ -48,11 +50,22 @@ class App extends Component {
     }))
   }
 
+  createPost = (newPost) => {
+    this.props.addNewPost(newPost),
+    this.setState({ post: this.props.post },{fireRedirect: true})
+  }
+
   render() {
 
-    const { category, showModal } = this.state
+    const { category, showModal, fireRedirect} = this.state
     const { getAllPost, post, getPostComments, getCategoryPost, comment } = this.props
     console.log(this)
+
+    if (this.state.fireRedirect) {
+      return (
+        <Redirect to="/" />
+      )
+    }
 
     return (
       <div className='containter-fluid'>
@@ -89,13 +102,13 @@ class App extends Component {
               onRequestClose={this.closeModal}
               contentLabel='Modal'
             >{showModal && <Comment comment={comment} />}
-            <Button bsSize='small' onClick={this.closeModal}>Close</Button>
-            <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
+              <Button bsSize='small' onClick={this.closeModal}>Close</Button>
+              <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
             </Modal>
           </div>
         )} />
         <Route path='/newpost' render={() => (
-          <Create create={this.state.create} />
+          <Create create={this.state.create} onSubmit={this.createPost(newPost)}/>
         )} />
       </div>
     );
@@ -113,7 +126,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getAllPost: () => dispatch(getall()),
     getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category)),
-    getPostComments: (id) => dispatch(getAllComments(id), console.log(id))
+    getPostComments: (id) => dispatch(getAllComments(id), console.log(id)),
+    addNewPost: (newPost) => dispatch(addPost(newPost), console.log(newPost)),
   }
 }
 

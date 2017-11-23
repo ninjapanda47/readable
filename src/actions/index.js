@@ -31,17 +31,10 @@ export function deleteComment({ id }) {
   }
 }
 
-export function addPost({ id, timestamp, title, body, author, category, voteScore, deleted }) {
+export function addPost(newPost) {
   return {
     type: ADD_POST,
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted
+    newPost
   }
 }
 
