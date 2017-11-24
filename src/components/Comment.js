@@ -1,11 +1,11 @@
 import React from 'react'
 import { Panel, Button, Label, Glyphicon} from 'react-bootstrap';
 
-export default function Comment({ comment }) {
+export default function Comment({ comments }) {
 
     return (
         <ul className='commentlist'>
-            {comment && comment.map((item) => (
+            {comments && comments.map((item) => (
             <Panel className='comment' key={item.id}>
                 <h4>{item.author}</h4>
                 <p>{item.body}</p>
