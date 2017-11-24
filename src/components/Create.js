@@ -37,11 +37,11 @@ class Create extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const newPost = this.state;
-    newPost.timestamp = Date.now();
-    newPost.id = uuidv4();
-    console.log(newPost);
-    this.props.onSubmit(newPost);
+    const post = this.state;
+    post.timestamp = Date.now();
+    post.id = uuidv4();
+    console.log(post);
+    this.props.onSubmit(post);
   };
 
     render() {

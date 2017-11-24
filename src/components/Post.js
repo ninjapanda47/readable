@@ -2,11 +2,11 @@ import React from 'react'
 import Comment from './Comment';
 import { Panel, Button, Label, Glyphicon } from 'react-bootstrap';
 
-export default function Post({ post, openModal}) {
+export default function Post({ posts, openModal}) {
 
     return (
         <ul className='postlist'>
-            {post && post.map((item) => (
+            {posts && posts.map((item) => (
                 <Panel className='post' key={item.id} header={item.title}>
                     <h4>Author: {item.author}</h4>
                     <p>{item.body}</p>

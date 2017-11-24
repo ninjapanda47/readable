@@ -4,7 +4,7 @@ import Post from './components/Post';
 import Create from './components/Create';
 import Comment from './components/Comment';
 import Modal from 'react-modal';
-import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments } from './actions'
+import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments, addPostRedux } from './actions'
 import * as readAPI from './utils/api'
 import { Route, Link, Redirect, withRouter } from 'react-router-dom'
 import './App.css';
@@ -15,10 +15,10 @@ class App extends Component {
   state = {
     categories: [],
     category: null,
-    post: [],
-    comment: [],
+    posts: [],
+    comments: [],
     showModal: false,
-    newPost: {}
+    post: {}
   }
 
   componentDidMount() {
@@ -31,26 +31,26 @@ class App extends Component {
   selectCategory(e) {
     const category = e
     this.props.getCategoryPost(category);
-    this.setState({ post: this.props.post })
+    this.setState({ posts: this.props.posts })
   }
 
   openModal = (id) => {
     this.props.getPostComments(id);
     this.setState(() => ({
       showModal: true,
-      comment: this.props.comment
+      comments: this.props.comments
     }));
   }
 
   closeModal = () => {
     this.setState(() => ({
       showModal: false,
-      comment: []
+      comments: []
     }))
   }
 
-  createPost = newPost => {
-    this.props.addNewPost(newPost);
+  createPost = post => {
+    this.props.addNewPost(post);
     this.props.getAllPost()
     this.props.history.push('/')
   };
@@ -58,7 +58,7 @@ class App extends Component {
   render() {
 
     const { category, showModal} = this.state
-    const { getAllPost, post, getPostComments, getCategoryPost, comment } = this.props   
+    const { getAllPost, posts, getPostComments, getCategoryPost, comments } = this.props   
     console.log(this)
 
     return (
@@ -86,7 +86,7 @@ class App extends Component {
         </Navbar>
         <Route exact path='/' render={() => (
           <div className='post-container'>
-            <Post post={post}
+            <Post posts={posts}
               openModal={(id) => {
                 this.openModal(id)
               }}
@@ -95,7 +95,7 @@ class App extends Component {
               isOpen={showModal}
               onRequestClose={this.closeModal}
               contentLabel='Modal'
-            >{showModal && <Comment comment={comment} />}
+            >{showModal && <Comment comments={comments} />}
               <Button bsSize='small' onClick={this.closeModal}>Close</Button>
               <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
             </Modal>
@@ -110,10 +110,10 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ post, comment }) {
+function mapStateToProps({ posts, comments }) {
   return {
-    post: post,
-    comment: comment
+    posts: posts,
+    comments: comments
   }
 }
 
@@ -122,7 +122,7 @@ function mapDispatchToProps(dispatch) {
     getAllPost: () => dispatch(getall()),
     getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category)),
     getPostComments: (id) => dispatch(getAllComments(id), console.log(id)),
-    addNewPost: (newPost) => dispatch(addPost(newPost), console.log(newPost)),
+    addNewPost: (newPost) => dispatch(addPostRedux(newPost), console.log(newPost)),
   }
 }
 

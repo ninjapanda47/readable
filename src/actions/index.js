@@ -7,7 +7,7 @@ export const DELETE_POST = 'DELETE_POST'
 export const UPDATE_VOTE = 'UPDATE_VOTE'
 export const SELECT_CATEGORY = 'SELECT_CATEGORY'
 export const GETALL = 'GETALL'
-
+export const ADDPOSTREDUX = 'ADDPOSTREDUX'
 
 export function addComment() {
   return {
@@ -43,17 +43,17 @@ export function selectCategory(category) {
   return function (dispatch) {
     console.log(category)
     readAPI.getCategory(category).then(
-      post => dispatch(receivePosts(post)),
+      posts => dispatch(receivePosts(posts)),
       error => console.log('An error occured', error)
     )
   }
 }
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-function receivePosts(post) {
+function receivePosts(posts) {
   return {
     type: RECEIVE_POSTS,
-    post
+    posts
   }
 }
 
@@ -61,40 +61,38 @@ export function getall() {
   return function (dispatch) {
     readAPI.getAll()
       .then(
-      post => dispatch(receivePosts(post)),
+      posts => dispatch(receivePosts(posts)),
       error => console.log('An error occured', error)
       )
   }
 
 }
 
-export function addPost(newPost) {
-  return function (dispatch) {
-    readAPI.addPost(newPost)
-      .then(
-      readAPI.getAll().then(
-        post => dispatch(receivePosts(post)),
-        error => console.log('An error occured', error)
-      )
-      )
-  }
-}
+export const addPost = (posts) => ({
+  type: ADD_POST,
+  posts
+})
+
+export const addPostRedux = (post) => dispatch => (
+  readAPI.addPost(post)
+    .then(dispatch(addPost(post)))
+);
 
 export function getAllComments(id) {
   return function (dispatch) {
     readAPI.getComments(id)
       .then(
-      comment => dispatch(receiveComments(comment)),
+      comments => dispatch(receiveComments(comments)),
       error => console.log('An error occured', error)
       )
   }
 }
 
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
-function receiveComments(comment) {
+function receiveComments(comments) {
   return {
     type: RECEIVE_COMMENTS,
-    comment
+    comments
   }
 }
 

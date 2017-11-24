@@ -11,26 +11,31 @@ import {
     RECEIVE_POSTS,
     REQUEST_POSTS,
     RECEIVE_COMMENTS,
-    GETALLCOMMENTS
+    GETALLCOMMENTS,
+    ADDPOSTREDUX
 } from '../actions'
 
-function post(state = [], action) {
-    const { post } = action
+function posts(state = [], action) {
+    const { posts } = action
     switch (action.type) {
         case GETALL:
             return {
-                ...state, post
+                ...state, posts
             }
         case RECEIVE_POSTS: {
-            return post
+            return posts
         }
         case SELECT_CATEGORY:
             return {
-                ...state, post
+                ...state, posts
             }
         case ADD_POST:
             return {
-                ...state, post
+                ...state, posts
+            }
+        case ADDPOSTREDUX:
+            return {
+                ...state, posts
             }
 
         default:
@@ -38,15 +43,15 @@ function post(state = [], action) {
     }
 }
 
-function comment(state = [], action) {
-    const { comment } = action
+function comments(state = [], action) {
+    const { comments } = action
     switch (action.type) {
         case GETALLCOMMENTS:
             return {
-                ...state, comment
+                ...state, comments
             }
         case RECEIVE_COMMENTS: {
-            return comment
+            return comments
         }
         default:
             return state
@@ -54,5 +59,5 @@ function comment(state = [], action) {
 }
 
 export default combineReducers({
-    post, comment, router: routerReducer
+    posts, comments, router: routerReducer
 })
