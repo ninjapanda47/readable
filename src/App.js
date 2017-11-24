@@ -51,7 +51,6 @@ class App extends Component {
 
   createPost = post => {
     this.props.addNewPost(post);
-    this.props.getAllPost()
     this.props.history.push('/')
   };
 
@@ -66,7 +65,7 @@ class App extends Component {
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href='/'>Readable</a>
+              <Link to="/">Readable</Link>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
@@ -122,7 +121,7 @@ function mapDispatchToProps(dispatch) {
     getAllPost: () => dispatch(getall()),
     getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category)),
     getPostComments: (id) => dispatch(getAllComments(id), console.log(id)),
-    addNewPost: (newPost) => dispatch(addPostRedux(newPost), console.log(newPost)),
+    addNewPost: (post) => dispatch(addPostRedux(post), console.log(post)),
   }
 }
 

@@ -30,9 +30,7 @@ function posts(state = [], action) {
                 ...state, posts
             }
         case ADD_POST:
-            return {
-                ...state, posts
-            }
+            return [...state, posts]
         case ADDPOSTREDUX:
             return {
                 ...state, posts
@@ -59,5 +57,5 @@ function comments(state = [], action) {
 }
 
 export default combineReducers({
-    posts, comments, router: routerReducer
+    posts, comments
 })
