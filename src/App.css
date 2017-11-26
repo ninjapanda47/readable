@@ -8,12 +8,12 @@ li {
 }
 
 .post-container {
-  padding: auto;
+  padding: 0 auto;
 }
 
 .postlist {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .post {

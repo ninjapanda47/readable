@@ -4,7 +4,7 @@ import Post from './components/Post';
 import Create from './components/Create';
 import Comment from './components/Comment';
 import Modal from 'react-modal';
-import { addPost, deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments, addPostRedux } from './actions'
+import { deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments, addPostRedux } from './actions'
 import * as readAPI from './utils/api'
 import { Route, Link, Redirect, withRouter } from 'react-router-dom'
 import './App.css';
@@ -14,7 +14,6 @@ class App extends Component {
 
   state = {
     categories: [],
-    category: null,
     posts: [],
     comments: [],
     showModal: false,
@@ -61,7 +60,7 @@ class App extends Component {
 
   render() {
 
-    const { category, showModal} = this.state
+    const { categories, showModal} = this.state
     const { getAllPost, posts, getPostComments, getCategoryPost, comments } = this.props   
     console.log(this)
 
@@ -70,7 +69,7 @@ class App extends Component {
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/" onClick={() => this.getAllPosts}>Readable</Link>
+              <Link to="/" onClick={() => this.getAllPosts()}>Readable</Link>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
