@@ -1,10 +1,10 @@
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import {
     ADD_COMMENT,
     DELETE_COMMENT,
     ADD_POST,
     DELETE_POST,
+    DELETEPOSTREDUX,
     UPDATE_VOTE,
     SELECT_CATEGORY,
     GETALL,
@@ -29,9 +29,11 @@ function posts(state = [], action) {
             return {
                 ...state, posts
             }
-        case ADD_POST:
-            return [...state, posts]
         case ADDPOSTREDUX:
+            return {
+                ...state, posts
+            }
+        case DELETEPOSTREDUX:
             return {
                 ...state, posts
             }

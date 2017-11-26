@@ -2,12 +2,11 @@ import * as readAPI from '../utils/api'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const GETALLCOMMENTS = 'GETALLCOMMENTS'
-export const ADD_POST = 'ADD_POST'
-export const DELETE_POST = 'DELETE_POST'
 export const UPDATE_VOTE = 'UPDATE_VOTE'
 export const SELECT_CATEGORY = 'SELECT_CATEGORY'
 export const GETALL = 'GETALL'
 export const ADDPOSTREDUX = 'ADDPOSTREDUX'
+export const DELETEPOSTREDUX = 'DELETEPOSTREDUX'
 
 export function addComment() {
   return {
@@ -18,14 +17,6 @@ export function addComment() {
 export function deleteComment({ id }) {
   return {
     type: DELETE_COMMENT,
-    id
-
-  }
-}
-
-export function deletePost({ id }) {
-  return {
-    type: DELETE_POST,
     id
 
   }
@@ -68,15 +59,15 @@ export function getall() {
 
 }
 
-export const addPost = (posts) => ({
-  type: ADD_POST,
-  posts
-})
-
 export const addPostRedux = (post) => dispatch => (
   readAPI.addPost(post)
-    .then(dispatch(addPost(post)))
+    .then(dispatch(getall()))
 );
+
+export const deletePostRedux = (id) => dispatch => (
+  readAPI.deletePost(id)
+    .then(posts => dispatch((getall()))
+));
 
 export function getAllComments(id) {
   return function (dispatch) {

@@ -4,7 +4,7 @@ import Post from './components/Post';
 import Create from './components/Create';
 import Comment from './components/Comment';
 import Modal from 'react-modal';
-import { deletePost, addComment, deleteComment, updateVote, selectCategory, getall, getAllComments, addPostRedux } from './actions'
+import { addComment, deleteComment, updateVote, selectCategory, getall, getAllComments, addPostRedux, deletePostRedux } from './actions'
 import * as readAPI from './utils/api'
 import { Route, Link, Redirect, withRouter } from 'react-router-dom'
 import './App.css';
@@ -58,6 +58,11 @@ class App extends Component {
     this.props.history.push('/')
   };
 
+  deletePost = (id) => {
+    this.props.deletePost(id);
+    this.setState({ posts: this.props.posts })
+  }
+
   render() {
 
     const { categories, showModal} = this.state
@@ -93,6 +98,9 @@ class App extends Component {
               openModal={(id) => {
                 this.openModal(id)
               }}
+              deletePost={(id) => {
+                this.deletePost(id)
+              }}
             />
             <Modal
               isOpen={showModal}
@@ -126,6 +134,7 @@ function mapDispatchToProps(dispatch) {
     getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category)),
     getPostComments: (id) => dispatch(getAllComments(id), console.log(id)),
     addNewPost: (post) => dispatch(addPostRedux(post), console.log(post)),
+    deletePost: (id) => dispatch(deletePostRedux(id), console.log(id))
   }
 }
 
