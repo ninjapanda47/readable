@@ -33,14 +33,14 @@ export const getComments = (id) =>
         .then(data => data)
 
 //add new post
-export const addPost = (newPost) =>
+export const addPost = (post) =>
     fetch(`${api}/posts`, {
         method: 'POST',
         headers: {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({})
+        body: JSON.stringify(post)
     }).then(res => res.json())
 
 //update vote

@@ -28,6 +28,11 @@ class App extends Component {
     this.props.getAllPost()
   }
 
+  getAllPosts() {
+    this.props.getAllPost()
+    this.setState({ posts: this.props.posts })
+  }
+
   selectCategory(e) {
     const category = e
     this.props.getCategoryPost(category);
@@ -65,7 +70,7 @@ class App extends Component {
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/">Readable</Link>
+              <Link to="/" onClick={() => this.getAllPosts}>Readable</Link>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
