@@ -21,10 +21,9 @@ function FieldGroup({ id, label, help, ...props }) {
 
 class Addcomment extends Component {
     state = {
-        title: '',
         author: '',
-        category: null,
-        body: null,
+        body: '',
+        parentId: ''
     };
 
     handleInputChange = event => {
@@ -52,24 +51,16 @@ class Addcomment extends Component {
                     <FieldGroup
                         id="formControlsText"
                         type="text"
-                        label="Title"
-                        name="title"
-                        placeholder="Enter text"
-                        onChange={this.handleInputChange}
-                    />
-                    <FieldGroup
-                        id="formControlsText"
-                        type="text"
                         label="Author"
                         name="author"
                         placeholder="Enter text"
                         onChange={this.handleInputChange}
                     />
                     <FormGroup controlId="formControlsTextarea">
-                        <ControlLabel>Post</ControlLabel>
+                        <ControlLabel>Comment</ControlLabel>
                         <FormControl
                             componentClass="textarea"
-                            placeholder="What's on your mind"
+                            placeholder="Leave your comment"
                             name="body"
                             onChange={this.handleInputChange}
                         />

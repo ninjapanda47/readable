@@ -23,8 +23,8 @@ class Create extends Component {
     state = {
         title: '',
         author: '',
-        category: null,
-        body: null,
+        category: '',
+        body: '',
     };
 
     handleInputChange = event => {

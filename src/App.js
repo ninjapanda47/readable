@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Post from './components/Post';
 import Create from './components/Create';
 import Comment from './components/Comment';
+import Addcomment from './components/Addcomment';
 import Modal from 'react-modal';
 import { addComment, deleteComment, updateVote, selectCategory, getall, getAllComments, addPostRedux, deletePostRedux } from './actions'
 import * as readAPI from './utils/api'
@@ -17,7 +18,6 @@ class App extends Component {
     posts: [],
     comments: [],
     showModal: false,
-    post: {}
   }
 
   componentDidMount() {
@@ -42,7 +42,7 @@ class App extends Component {
     this.props.getPostComments(id);
     this.setState(() => ({
       showModal: true,
-      comments: this.props.comments
+      comments: this.props.comments,
     }));
   }
 
@@ -63,10 +63,14 @@ class App extends Component {
     this.setState({ posts: this.props.posts })
   }
 
+  addComment = (id) => {
+    console.log(id);
+  }
+
   render() {
 
-    const { categories, showModal} = this.state
-    const { getAllPost, posts, getPostComments, getCategoryPost, comments } = this.props   
+    const { categories, showModal, parentId } = this.state
+    const { getAllPost, posts, getPostComments, getCategoryPost, comments } = this.props
     console.log(this)
 
     return (
@@ -82,7 +86,7 @@ class App extends Component {
           </Nav>
           <Nav bsStyle='pills' activeKey={1} pullRight>
             {this.state.categories.map((category) => (
-              <NavItem key={category.name} eventKey={2} onClick={(e) => this.selectCategory((category.name))}><Link to="/">
+              <NavItem key={category.name} eventKey={2} onClick={(e) => this.selectCategory((category.name))}><Link to={`/${category.name}`}>
                 {(category.name)}</Link>
               </NavItem>
             ))}
@@ -106,15 +110,40 @@ class App extends Component {
               isOpen={showModal}
               onRequestClose={this.closeModal}
               contentLabel='Modal'
-            >{showModal && <Comment comments={comments} />}
+            >{showModal && <Comment comments={comments}/>}
               <Button bsSize='small' onClick={this.closeModal}>Close</Button>
               <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
             </Modal>
           </div>
         )} />
+        <Route path='/:category' render={() => (
+          <div className='post-container'>
+            <Post posts={posts}
+              openModal={(id) => {
+                this.openModal(id)
+              }}
+              deletePost={(id) => {
+                this.deletePost(id)
+              }}
+            />
+            <Modal
+              isOpen={showModal}
+              onRequestClose={this.closeModal}
+              contentLabel='Modal'
+            >{showModal && <Comment comments={comments}/>}
+              <Button bsSize='small' onClick={this.closeModal}>Close</Button>
+              <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
+            </Modal>
+          </div>
+
+        )}/>
         <Route
           path="/newpost"
           render={() => <Create onSubmit={this.createPost} />}
+        />
+        <Route
+          path="/newcomment"
+          render={() => <Addcomment onSubmit={this.addComment} />}
         />
       </div>
     );
