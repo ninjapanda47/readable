@@ -63,6 +63,11 @@ class App extends Component {
     this.setState({ posts: this.props.posts })
   }
 
+  updateVote = (id, vote) => {
+    this.props.updateVote(id, vote);
+    this.setState({ posts: this.props.posts })
+  }
+
   addComment = (id) => {
     console.log(id);
   }
@@ -105,12 +110,15 @@ class App extends Component {
               deletePost={(id) => {
                 this.deletePost(id)
               }}
+              updateVote={(id, vote) => {
+                this.updateVote(id, vote)
+              }}
             />
             <Modal
               isOpen={showModal}
               onRequestClose={this.closeModal}
               contentLabel='Modal'
-            >{showModal && <Comment comments={comments}/>}
+            >{showModal && <Comment comments={comments} />}
               <Button bsSize='small' onClick={this.closeModal}>Close</Button>
               <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
             </Modal>
@@ -130,16 +138,15 @@ class App extends Component {
               isOpen={showModal}
               onRequestClose={this.closeModal}
               contentLabel='Modal'
-            >{showModal && <Comment comments={comments}/>}
+            >{showModal && <Comment comments={comments} />}
               <Button bsSize='small' onClick={this.closeModal}>Close</Button>
               <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
             </Modal>
           </div>
-
-        )}/>
+        )} />
         <Route
           path="/newpost"
-          render={() => <Create onSubmit={this.createPost} />}
+          render={() => <Create onSubmit={this.createPost}/>}
         />
         <Route
           path="/newcomment"
@@ -163,7 +170,8 @@ function mapDispatchToProps(dispatch) {
     getCategoryPost: (category) => dispatch(selectCategory(category), console.log(category)),
     getPostComments: (id) => dispatch(getAllComments(id), console.log(id)),
     addNewPost: (post) => dispatch(addPostRedux(post), console.log(post)),
-    deletePost: (id) => dispatch(deletePostRedux(id), console.log(id))
+    deletePost: (id) => dispatch(deletePostRedux(id), console.log(id)),
+    updateVote: (id, vote) => dispatch(updateVote(id,vote), console.log(id, vote))
   }
 }
 

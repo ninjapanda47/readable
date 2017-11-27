@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import {
-    ADD_COMMENT,
+    ADDCOMMENT,
     DELETE_COMMENT,
     ADD_POST,
     DELETE_POST,
     DELETEPOSTREDUX,
-    UPDATE_VOTE,
+    UPDATEVOTE,
     SELECT_CATEGORY,
     GETALL,
     RECEIVE_POSTS,
@@ -37,7 +37,10 @@ function posts(state = [], action) {
             return {
                 ...state, posts
             }
-
+        case UPDATEVOTE:
+            return {
+                ...state, posts
+            }
         default:
             return state
     }
@@ -53,6 +56,10 @@ function comments(state = [], action) {
         case RECEIVE_COMMENTS: {
             return comments
         }
+        case ADDCOMMENT:
+            return {
+                ...state, comments
+            }
         default:
             return state
     }

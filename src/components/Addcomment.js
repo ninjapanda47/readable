@@ -19,7 +19,10 @@ function FieldGroup({ id, label, help, ...props }) {
     );
 }
 
+console.log(this.props)
+
 class Addcomment extends Component {
+
     state = {
         author: '',
         body: '',
