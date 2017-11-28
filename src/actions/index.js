@@ -80,7 +80,7 @@ function receiveComments(comments) {
   }
 }
 
-export const addComment = (comment, id) => dispatch => (
-  readAPI.addComment(comment, id)
-    .then(dispatch(getAllComments(id)))
+export const addComment = (id,comment) => dispatch => (
+  readAPI.addComment(comment)
+    .then(comments => dispatch(getAllComments(id)))
 );

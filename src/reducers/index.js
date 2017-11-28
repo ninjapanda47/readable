@@ -17,6 +17,7 @@ import {
 
 function posts(state = [], action) {
     const { posts } = action
+
     switch (action.type) {
         case GETALL:
             return {

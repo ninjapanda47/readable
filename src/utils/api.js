@@ -60,8 +60,9 @@ export const updateVote = (id, vote) =>
             ...headers,
             'Content-Type': 'application/json'
         },
-        option: JSON.stringify(vote)
+        body: JSON.stringify({ 'option': vote })
     }).then(res => res.json())
+        .then(data => data)
 
 //add comment
 export const addComment = (comment) =>
@@ -73,3 +74,4 @@ export const addComment = (comment) =>
         },
         body: JSON.stringify(comment)
     }).then(res => res.json())
+        .then(data => data)

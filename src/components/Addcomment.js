@@ -26,7 +26,6 @@ class Addcomment extends Component {
     state = {
         author: '',
         body: '',
-        parentId: ''
     };
 
     handleInputChange = event => {
@@ -42,8 +41,10 @@ class Addcomment extends Component {
     const comment = this.state;
     comment.timestamp = Date.now();
     comment.id = uuidv4();
-    console.log(comment);
-    this.props.onSubmit(comment);
+    comment.parentId = this.props.parentId
+    const id = this.props.parentId
+    console.log(id,comment);
+    this.props.onSubmit(id,comment);
   };
 
     render() {

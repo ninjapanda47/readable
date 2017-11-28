@@ -7,7 +7,7 @@ import Addcomment from './components/Addcomment';
 import Modal from 'react-modal';
 import { addComment, deleteComment, updateVote, selectCategory, getall, getAllComments, addPostRedux, deletePostRedux } from './actions'
 import * as readAPI from './utils/api'
-import { Route, Link, Redirect, withRouter } from 'react-router-dom'
+import { Route, Link, Redirect, withRouter, Switch } from 'react-router-dom'
 import './App.css';
 import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
@@ -18,6 +18,7 @@ class App extends Component {
     posts: [],
     comments: [],
     showModal: false,
+    parentId: ''
   }
 
   componentDidMount() {
@@ -43,6 +44,7 @@ class App extends Component {
     this.setState(() => ({
       showModal: true,
       comments: this.props.comments,
+      parentId: id
     }));
   }
 
@@ -68,8 +70,9 @@ class App extends Component {
     this.setState({ posts: this.props.posts })
   }
 
-  addComment = (id) => {
-    console.log(id);
+  addComment = (id, comment) => {
+    this.props.addNewComment(comment)
+
   }
 
   render() {
@@ -101,63 +104,68 @@ class App extends Component {
             </NavDropdown>
           </Nav>
         </Navbar>
-        <Route exact path='/' render={() => (
-          <div className='post-container'>
-            <Post posts={posts}
-              openModal={(id) => {
-                this.openModal(id)
-              }}
-              deletePost={(id) => {
-                this.deletePost(id)
-              }}
-              updateVote={(id, vote) => {
-                this.updateVote(id, vote)
-              }}
-            />
-            <Modal
-              isOpen={showModal}
-              onRequestClose={this.closeModal}
-              contentLabel='Modal'
-            >{showModal && <Comment comments={comments} />}
-              <Button bsSize='small' onClick={this.closeModal}>Close</Button>
-              <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
-            </Modal>
-          </div>
-        )} />
-        <Route path='/:category' render={() => (
-          <div className='post-container'>
-            <Post posts={posts}
-              openModal={(id) => {
-                this.openModal(id)
-              }}
-              deletePost={(id) => {
-                this.deletePost(id)
-              }}
-            />
-            <Modal
-              isOpen={showModal}
-              onRequestClose={this.closeModal}
-              contentLabel='Modal'
-            >{showModal && <Comment comments={comments} />}
-              <Button bsSize='small' onClick={this.closeModal}>Close</Button>
-              <Button bsStyle='info' bsSize='small' className='addcommentbtn'>Add a Comment</Button>
-            </Modal>
-          </div>
-        )} />
-        <Route
-          path="/newpost"
-          render={() => <Create onSubmit={this.createPost}/>}
-        />
-        <Route
-          path="/newcomment"
-          render={() => <Addcomment onSubmit={this.addComment} />}
-        />
+        <Switch>
+          <Route exact path='/' render={() => (
+            <div className='post-container'>
+              <Post posts={posts}
+                openModal={(id) => {
+                  this.openModal(id)
+                }}
+                deletePost={(id) => {
+                  this.deletePost(id)
+                }}
+                updateVote={(id, vote) => {
+                  this.updateVote(id, vote)
+                }}
+              />
+              <Modal
+                isOpen={showModal}
+                onRequestClose={this.closeModal}
+                contentLabel='Modal'
+              >{showModal && <Comment comments={comments} />}
+                <Button bsSize='small' onClick={this.closeModal}>Close</Button>
+                <Button bsStyle='info' bsSize='small' className='addcommentbtn' onClick={(e) => this.props.history.push('/newcomment')}>Add a Comment</Button>
+              </Modal>
+            </div>
+          )} />
+          <Route
+            path="/newpost"
+            render={() => <Create onSubmit={this.createPost} />}
+          />
+          <Route
+            path="/newcomment"
+            render={() => <Addcomment onSubmit={this.addComment} parentId={this.state.parentId} />}
+          />
+          <Route path='/:category' render={() => (
+            <div className='post-container'>
+              <Post posts={posts}
+                openModal={(id) => {
+                  this.openModal(id)
+                }}
+                deletePost={(id) => {
+                  this.deletePost(id)
+                }}
+                updateVote={(id, vote) => {
+                  this.updateVote(id, vote)
+                }}
+              />
+              <Modal
+                isOpen={showModal}
+                onRequestClose={this.closeModal}
+                contentLabel='Modal'
+              >{showModal && <Comment comments={comments} />}
+                <Button bsSize='small' onClick={this.closeModal}>Close</Button>
+                <Button bsStyle='info' bsSize='small' className='addcommentbtn' onClick={(e) => this.props.history.push('/newcomment')}>Add a Comment</Button>
+              </Modal>
+            </div>
+          )} />
+        </Switch>
       </div>
     );
   }
 }
 
-function mapStateToProps({ posts, comments }) {
+function mapStateToProps({ posts, post, comments }) {
   return {
     posts: posts,
     comments: comments
@@ -171,7 +179,8 @@ function mapDispatchToProps(dispatch) {
     getPostComments: (id) => dispatch(getAllComments(id), console.log(id)),
     addNewPost: (post) => dispatch(addPostRedux(post), console.log(post)),
     deletePost: (id) => dispatch(deletePostRedux(id), console.log(id)),
-    updateVote: (id, vote) => dispatch(updateVote(id,vote), console.log(id, vote))
+    updateVote: (id, vote) => dispatch(updateVote(id, vote), console.log(id, vote)),
+    addNewComment: (comment) => dispatch(addComment(comment), console.log(comment))
   }
 }
 
