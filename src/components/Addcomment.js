@@ -42,7 +42,6 @@ class Addcomment extends Component {
     comment.id = uuidv4();
     comment.parentId = this.props.parentId;
     const id = this.props.parentId;
-    console.log(id, comment);
     this.props.onSubmit(id, comment);
   };
 

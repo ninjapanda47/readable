@@ -54,6 +54,12 @@ export const deletePost = id =>
     .then(res => res.json())
     .then(data => data);
 
+//update post
+export const updatePost = id =>
+  fetch(`${api}/${id}/posts`, { headers })
+    .then(res => res.json())
+    .then(data => data);
+
 //update vote
 export const updateVote = (id, vote) =>
   fetch(`${api}/posts/${id}`, {

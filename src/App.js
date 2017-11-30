@@ -6,14 +6,14 @@ import Comment from "./components/Comment";
 import Addcomment from "./components/Addcomment";
 import Modal from "react-modal";
 import {
-  addComment,
-  deleteComment,
+  addCommentRedux,
+  deleteCommentRedux,
   updateVote,
   selectCategory,
   getall,
   getAllComments,
   addPostRedux,
-  deletePostRedux
+  deletePostRedux, 
 } from "./actions";
 import * as readAPI from "./utils/api";
 import { Route, Link, Redirect, withRouter, Switch } from "react-router-dom";
@@ -77,7 +77,7 @@ class App extends Component {
 
   deletePost = id => {
     this.props.deletePost(id);
-    this.setState({ posts: this.props.posts });
+    this.props.history.push("/");
   };
 
   updateVote = (id, vote) => {
@@ -86,21 +86,14 @@ class App extends Component {
   };
 
   addComment = (id, comment) => {
-    this.props.addNewComment(id, comment);
-    this.props.getAllPost();
+    this.props.addNewComment(id,comment);
     this.props.history.push("/");
     this.openModal(id);
   };
 
   deleteComment = id => {
     this.props.deleteComment(id);
-    this.props.getPostComments();
-    this.props.getAllPost();
     this.props.history.push("/");
-    this.setState({ 
-      comments: this.props.comments, 
-      posts: this.props.posts
-    });
   };
 
   render() {
@@ -271,9 +264,9 @@ function mapDispatchToProps(dispatch) {
     deletePost: id => dispatch(deletePostRedux(id), console.log(id)),
     updateVote: (id, vote) =>
       dispatch(updateVote(id, vote), console.log(id, vote)),
-    addNewComment: (id, comment) =>
-      dispatch(addComment(id, comment), console.log(id, comment)),
-    deleteComment: id => dispatch(deleteComment(id), console.log(id))
+    addNewComment: (id,comment) =>
+      dispatch(addCommentRedux(id,comment), console.log(comment)),
+    deleteComment: id => dispatch(deleteCommentRedux(id), console.log(id))
   };
 }
 
