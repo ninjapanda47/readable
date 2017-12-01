@@ -4,13 +4,14 @@ import {
   DELETE_COMMENT,
   ADD_POST,
   DELETE_POST,
-  UPDATEVOTE,
   RECEIVE_POSTS,
   REQUEST_POSTS,
   RECEIVE_COMMENTS,
   GETALLCOMMENTS,
   ADDPOSTREDUX,
-  DELETE_COMMENT_POST
+  DELETE_COMMENT_POST,
+  UP_VOTE_POST,
+  DOWN_VOTE_POST
 } from "../actions";
 
 function posts(state = [], action) {
@@ -34,21 +35,29 @@ function posts(state = [], action) {
       });
       return updatedpost;
     case DELETE_COMMENT_POST:
-    console.log(state, id)
       let updatedpostdelete = state.map(p => {
         if (p.id === id) {
-            console.log('match',p.commentCount)
           p.commentCount--;
         }
         return p;
       });
-      return updatedpostdelete
-    case UPDATEVOTE:
-      console.log(state);
-      return {
-        ...state,
-        posts
-      };
+      return updatedpostdelete;
+    case UP_VOTE_POST:
+      let postupvote = state.map(p => {
+        if (p.id === id) {
+          p.voteScore++;
+        }
+        return p;
+      });
+      return postupvote
+    case DOWN_VOTE_POST:
+      let postdownvote = state.map(p => {
+        if (p.id === id) {
+          p.voteScore--;
+        }
+        return p;
+      });
+      return postdownvote
     default:
       return state;
   }

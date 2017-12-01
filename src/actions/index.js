@@ -8,11 +8,33 @@ export const DELETE_POST = "DELETE_POST";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const ADD_POST = "ADD_POST";
 export const DELETE_COMMENT_POST = "DELETE_COMMENT_POST";
+export const UP_VOTE_POST = "UP_VOTE_POST";
+export const DOWN_VOTE_POST = "DOWN_VOTE_POST";
 
 export const updateVote = (id, vote) => dispatch =>
   readAPI.updateVote(id, vote).then(response => {
-    console.log(response.id);
+    console.log(response, vote);
+    const postid = response.id
+    if (vote === 'upVote'){
+      dispatch(upVotePost(postid))
+    } else {
+      dispatch(downVotePost(postid))
+    }
   });
+
+function upVotePost(id) {
+  return {
+    type: UP_VOTE_POST,
+    id
+  };
+}
+
+function downVotePost(id) {
+  return {
+    type: DOWN_VOTE_POST,
+    id
+  };
+}
 
 export function selectCategory(category) {
   return function(dispatch) {
@@ -33,20 +55,33 @@ function receivePosts(posts) {
   };
 }
 
-function compareNumbers(a, b) {
+function compareVotes(a, b) {
   return a.voteScore - b.voteScore;
 }
 
+function byTime(a, b) {
+  return a.timestamp - b.timestamp;
+}
+
 export function getall(eventKey) {
-  if (eventKey === "score") {
+  if (eventKey === 'score') {
     return function(dispatch) {
       readAPI.getAll().then(response => {
         const allPosts = response;
-        allPosts.sort(compareNumbers)
+        allPosts.sort(compareVotes)
         dispatch(receivePosts(allPosts))
       });
     };
-  } else
+  } else if (eventKey === 'time'){
+    return function(dispatch){
+       readAPI.getAll().then(response => {
+        const allPosts = response;
+        allPosts.sort(byTime)
+        dispatch(receivePosts(allPosts))
+      });     
+    }
+  }
+   else
     return function(dispatch) {
       readAPI
         .getAll()
