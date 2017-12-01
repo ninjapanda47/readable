@@ -33,15 +33,28 @@ function receivePosts(posts) {
   };
 }
 
-export function getall() {
-  return function(dispatch) {
-    readAPI
-      .getAll()
-      .then(
-        posts => dispatch(receivePosts(posts)),
-        error => console.log("An error occured", error)
-      );
-  };
+function compareNumbers(a, b) {
+  return a.voteScore - b.voteScore;
+}
+
+export function getall(eventKey) {
+  if (eventKey === "score") {
+    return function(dispatch) {
+      readAPI.getAll().then(response => {
+        const allPosts = response;
+        allPosts.sort(compareNumbers)
+        dispatch(receivePosts(allPosts))
+      });
+    };
+  } else
+    return function(dispatch) {
+      readAPI
+        .getAll()
+        .then(
+          posts => dispatch(receivePosts(posts)),
+          error => console.log("An error occured", error)
+        );
+    };
 }
 
 function addPost(post) {
@@ -111,6 +124,6 @@ function deleteComment(id) {
 
 export const deleteCommentRedux = id => dispatch =>
   readAPI.deleteComment(id).then(response => {
-    const parentId = response.parentId
+    const parentId = response.parentId;
     dispatch(deleteComment(id)), dispatch(deleteCommentPost(parentId));
   });

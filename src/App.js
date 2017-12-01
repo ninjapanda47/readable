@@ -28,6 +28,7 @@ import {
 } from "react-bootstrap";
 
 class App extends Component {
+  
   state = {
     categories: [],
     posts: [],
@@ -40,11 +41,12 @@ class App extends Component {
     readAPI.getCategories().then(data => {
       this.setState({ categories: data.categories });
     });
-    this.props.getAllPost();
+    this.props.getAllPosts();
   }
-
-  getAllPosts() {
-    this.props.getAllPost();
+  
+  getAllPosts = (eventKey) => {
+    console.log(eventKey, this)
+    this.props.getAllPosts(eventKey);
     this.setState({ posts: this.props.posts });
   }
 
@@ -99,7 +101,7 @@ class App extends Component {
   render() {
     const { categories, showModal, parentId } = this.state;
     const {
-      getAllPost,
+      getAllPosts,
       posts,
       getPostComments,
       getCategoryPost,
@@ -132,9 +134,9 @@ class App extends Component {
                 <Link to={`/${category.name}`}>{category.name}</Link>
               </NavItem>
             ))}
-            <NavDropdown eventKey={3} title="Order By" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Vote Score</MenuItem>
-              <MenuItem eventKey={3.2}>Time Stamp</MenuItem>
+            <NavDropdown eventKey={3} title="Order By" id="basic-nav-dropdown" onSelect={this.getAllPosts}>
+              <MenuItem eventKey="score" value='score'>Vote Score</MenuItem>
+              <MenuItem eventKey="time" value='time'>Time Stamp</MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar>
@@ -256,7 +258,7 @@ function mapStateToProps({ posts, comments }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAllPost: () => dispatch(getall()),
+    getAllPosts: eventKey => dispatch(getall(eventKey)),
     getCategoryPost: category =>
       dispatch(selectCategory(category), console.log(category)),
     getPostComments: id => dispatch(getAllComments(id), console.log(id)),
