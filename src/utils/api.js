@@ -60,8 +60,8 @@ export const updatePost = id =>
     .then(res => res.json())
     .then(data => data);
 
-//update vote
-export const updateVote = (id, vote) =>
+//update vote post
+export const updateVotePost = (id, vote) =>
   fetch(`${api}/posts/${id}`, {
     method: "POST",
     headers: {
@@ -91,6 +91,19 @@ export const deleteComment = id =>
   fetch(`${api}/comments/${id}`, {
     method: "DELETE",
     headers
+  })
+    .then(res => res.json())
+    .then(data => data);
+
+//update vote comment
+export const updateVoteComment = (id, vote) =>
+  fetch(`${api}/comments/${id}`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ option: vote })
   })
     .then(res => res.json())
     .then(data => data);

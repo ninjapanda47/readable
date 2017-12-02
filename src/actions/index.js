@@ -10,9 +10,11 @@ export const ADD_POST = "ADD_POST";
 export const DELETE_COMMENT_POST = "DELETE_COMMENT_POST";
 export const UP_VOTE_POST = "UP_VOTE_POST";
 export const DOWN_VOTE_POST = "DOWN_VOTE_POST";
+export const UP_VOTE_COMMENT = "UP_VOTE_COMMENT";
+export const DOWN_VOTE_COMMENT = "DOWN_VOTE_COMMENT";
 
 export const updateVote = (id, vote) => dispatch =>
-  readAPI.updateVote(id, vote).then(response => {
+  readAPI.updateVotePost(id, vote).then(response => {
     console.log(response, vote);
     const postid = response.id
     if (vote === 'upVote'){
@@ -32,6 +34,31 @@ function upVotePost(id) {
 function downVotePost(id) {
   return {
     type: DOWN_VOTE_POST,
+    id
+  };
+}
+
+export const updateVoteComment = (id, vote) => dispatch =>
+  readAPI.updateVoteComment(id, vote).then(response => {
+    console.log(response, vote);
+    const commentid = response.id
+    if (vote === 'upVote'){
+      dispatch(upVoteComment(commentid))
+    } else {
+      dispatch(downVoteComment(commentid))
+    }
+  });
+
+function upVoteComment(id) {
+  return {
+    type: UP_VOTE_COMMENT,
+    id
+  };
+}
+
+function downVoteComment(id) {
+  return {
+    type: DOWN_VOTE_COMMENT,
     id
   };
 }

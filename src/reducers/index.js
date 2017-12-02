@@ -11,7 +11,9 @@ import {
   ADDPOSTREDUX,
   DELETE_COMMENT_POST,
   UP_VOTE_POST,
-  DOWN_VOTE_POST
+  DOWN_VOTE_POST,
+  UP_VOTE_COMMENT,
+  DOWN_VOTE_COMMENT
 } from "../actions";
 
 function posts(state = [], action) {
@@ -49,7 +51,7 @@ function posts(state = [], action) {
         }
         return p;
       });
-      return postupvote
+      return postupvote;
     case DOWN_VOTE_POST:
       let postdownvote = state.map(p => {
         if (p.id === id) {
@@ -57,7 +59,7 @@ function posts(state = [], action) {
         }
         return p;
       });
-      return postdownvote
+      return postdownvote;
     default:
       return state;
   }
@@ -72,6 +74,22 @@ function comments(state = [], action) {
     case DELETE_COMMENT:
       let update = state.filter(c => c.id !== id);
       return update;
+    case UP_VOTE_COMMENT:
+      let commentupvote = state.map(c => {
+        if (c.id === id) {
+          c.voteScore++;
+        }
+        return c;
+      });
+      return commentupvote;
+    case DOWN_VOTE_COMMENT:
+      let commentdownvote = state.map(c => {
+        if (c.id === id) {
+          c.voteScore--;
+        }
+        return c;
+      });
+      return commentdownvote;
     default:
       return state;
   }

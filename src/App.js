@@ -13,7 +13,8 @@ import {
   getall,
   getAllComments,
   addPostRedux,
-  deletePostRedux, 
+  deletePostRedux,
+  updateVoteComment
 } from "./actions";
 import * as readAPI from "./utils/api";
 import { Route, Link, Redirect, withRouter, Switch } from "react-router-dom";
@@ -28,7 +29,6 @@ import {
 } from "react-bootstrap";
 
 class App extends Component {
-  
   state = {
     categories: [],
     posts: [],
@@ -43,12 +43,12 @@ class App extends Component {
     });
     this.props.getAllPosts();
   }
-  
-  getAllPosts = (eventKey) => {
-    console.log(eventKey, this)
+
+  getAllPosts = eventKey => {
+    console.log(eventKey, this);
     this.props.getAllPosts(eventKey);
     this.setState({ posts: this.props.posts });
-  }
+  };
 
   selectCategory(e) {
     const category = e;
@@ -87,8 +87,13 @@ class App extends Component {
     this.setState({ posts: this.props.posts });
   };
 
+  updateVoteComment = (id, vote) => {
+    this.props.updateVoteComment(id, vote);
+    this.setState({ comments: this.props.comments });
+  };
+
   addComment = (id, comment) => {
-    this.props.addNewComment(id,comment);
+    this.props.addNewComment(id, comment);
     this.props.history.push("/");
     this.openModal(id);
   };
@@ -134,9 +139,18 @@ class App extends Component {
                 <Link to={`/${category.name}`}>{category.name}</Link>
               </NavItem>
             ))}
-            <NavDropdown eventKey={3} title="Order By" id="basic-nav-dropdown" onSelect={this.getAllPosts}>
-              <MenuItem eventKey="score" value='score'>Vote Score</MenuItem>
-              <MenuItem eventKey="time" value='time'>Time Stamp</MenuItem>
+            <NavDropdown
+              eventKey={3}
+              title="Order By"
+              id="basic-nav-dropdown"
+              onSelect={this.getAllPosts}
+            >
+              <MenuItem eventKey="score" value="score">
+                Vote Score
+              </MenuItem>
+              <MenuItem eventKey="time" value="time">
+                Time Stamp
+              </MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar>
@@ -168,6 +182,9 @@ class App extends Component {
                       comments={comments}
                       deleteComment={id => {
                         this.deleteComment(id);
+                      }}
+                      updateVoteComment={(id, vote) => {
+                        this.updateVoteComment(id, vote);
                       }}
                     />
                   )}
@@ -226,6 +243,9 @@ class App extends Component {
                       deleteComment={id => {
                         this.deleteComment(id);
                       }}
+                      updateVoteComment={(id, vote) => {
+                        this.updateVoteComment(id, vote);
+                      }}
                     />
                   )}
                   <Button bsSize="small" onClick={this.closeModal}>
@@ -266,8 +286,10 @@ function mapDispatchToProps(dispatch) {
     deletePost: id => dispatch(deletePostRedux(id), console.log(id)),
     updateVote: (id, vote) =>
       dispatch(updateVote(id, vote), console.log(id, vote)),
-    addNewComment: (id,comment) =>
-      dispatch(addCommentRedux(id,comment), console.log(comment)),
+    updateVoteComment: (id, vote) =>
+      dispatch(updateVoteComment(id, vote), console.log(id, vote)),
+    addNewComment: (id, comment) =>
+      dispatch(addCommentRedux(id, comment), console.log(comment)),
     deleteComment: id => dispatch(deleteCommentRedux(id), console.log(id))
   };
 }
