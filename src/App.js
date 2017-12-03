@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Post from "./components/Post";
+import Editpost from "./components/Editpost";
 import Create from "./components/Create";
 import Comment from "./components/Comment";
 import Addcomment from "./components/Addcomment";
+import Editcomment from "./components/Editcomment";
 import Modal from "react-modal";
 import {
   addCommentRedux,
@@ -13,6 +15,9 @@ import {
   getall,
   getAllComments,
   addPostRedux,
+  getPost,
+  getComment,
+  updatePost,
   deletePostRedux,
   updateVoteComment
 } from "./actions";
@@ -34,7 +39,9 @@ class App extends Component {
     posts: [],
     comments: [],
     showModal: false,
-    parentId: ""
+    parentId: "",
+    postId: "",
+    commentId: ""
   };
 
   componentDidMount() {
@@ -45,7 +52,6 @@ class App extends Component {
   }
 
   getAllPosts = eventKey => {
-    console.log(eventKey, this);
     this.props.getAllPosts(eventKey);
     this.setState({ posts: this.props.posts });
   };
@@ -77,6 +83,17 @@ class App extends Component {
     this.props.history.push("/");
   };
 
+  editPostOpen = id => {
+    this.setState({ postId: id });
+    this.props.editPostOpen(id);
+    this.props.history.push("/editpost");
+  };
+
+  updatePost = (id, post) => {
+    this.props.updatePost(id, post);
+    this.props.history.push("/");
+  };
+
   deletePost = id => {
     this.props.deletePost(id);
     this.props.history.push("/");
@@ -98,21 +115,29 @@ class App extends Component {
     this.openModal(id);
   };
 
+  editCommentOpen = id => {
+    this.setState({ commentId: id });
+    this.props.editCommentOpen(id);
+    this.props.history.push("/editcomment");
+  };
+
   deleteComment = id => {
     this.props.deleteComment(id);
     this.props.history.push("/");
   };
 
   render() {
-    const { categories, showModal, parentId } = this.state;
+    const { categories, showModal, parentId, postId } = this.state;
     const {
       getAllPosts,
       posts,
       getPostComments,
       getCategoryPost,
-      comments
+      comments,
+      editPostOpen,
+      post,
+      comment
     } = this.props;
-    console.log(this);
 
     return (
       <div className="containter-fluid">
@@ -165,6 +190,9 @@ class App extends Component {
                   openModal={id => {
                     this.openModal(id);
                   }}
+                  editPostOpen={id => {
+                    this.editPostOpen(id);
+                  }}
                   deletePost={id => {
                     this.deletePost(id);
                   }}
@@ -182,6 +210,9 @@ class App extends Component {
                       comments={comments}
                       deleteComment={id => {
                         this.deleteComment(id);
+                      }}
+                      editComment={id => {
+                        this.editCommentOpen(id);
                       }}
                       updateVoteComment={(id, vote) => {
                         this.updateVoteComment(id, vote);
@@ -208,12 +239,28 @@ class App extends Component {
             render={() => <Create onSubmit={this.createPost} />}
           />
           <Route
+            path="/editpost"
+            render={() => (
+              <Editpost
+                onSubmit={this.updatePost}
+                postId={this.state.postId}
+                post={post}
+              />
+            )}
+          />
+          <Route
             path="/newcomment"
             render={() => (
               <Addcomment
                 onSubmit={this.addComment}
                 parentId={this.state.parentId}
               />
+            )}
+          />
+          <Route
+            path="/editcomment"
+            render={() => (
+              <Editpost commentId={this.state.commentId} comment={comment} />
             )}
           />
           <Route
@@ -224,6 +271,9 @@ class App extends Component {
                   posts={posts}
                   openModal={id => {
                     this.openModal(id);
+                  }}
+                  editPostOpen={id => {
+                    this.editPostOpen(id);
                   }}
                   deletePost={id => {
                     this.deletePost(id);
@@ -242,6 +292,9 @@ class App extends Component {
                       comments={comments}
                       deleteComment={id => {
                         this.deleteComment(id);
+                      }}
+                      editComment={id => {
+                        this.editCommentOpen(id);
                       }}
                       updateVoteComment={(id, vote) => {
                         this.updateVoteComment(id, vote);
@@ -269,9 +322,11 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ posts, comments }) {
+function mapStateToProps({ posts, comments, post, comment }) {
   return {
+    post: post,
     posts: posts,
+    comment: comment,
     comments: comments
   };
 }
@@ -279,18 +334,17 @@ function mapStateToProps({ posts, comments }) {
 function mapDispatchToProps(dispatch) {
   return {
     getAllPosts: eventKey => dispatch(getall(eventKey)),
-    getCategoryPost: category =>
-      dispatch(selectCategory(category), console.log(category)),
-    getPostComments: id => dispatch(getAllComments(id), console.log(id)),
-    addNewPost: post => dispatch(addPostRedux(post), console.log(post)),
-    deletePost: id => dispatch(deletePostRedux(id), console.log(id)),
-    updateVote: (id, vote) =>
-      dispatch(updateVote(id, vote), console.log(id, vote)),
-    updateVoteComment: (id, vote) =>
-      dispatch(updateVoteComment(id, vote), console.log(id, vote)),
-    addNewComment: (id, comment) =>
-      dispatch(addCommentRedux(id, comment), console.log(comment)),
-    deleteComment: id => dispatch(deleteCommentRedux(id), console.log(id))
+    getCategoryPost: category => dispatch(selectCategory(category)),
+    getPostComments: id => dispatch(getAllComments(id)),
+    addNewPost: post => dispatch(addPostRedux(post)),
+    editPostOpen: id => dispatch(getPost(id)),
+    updatePost: (id, post) => dispatch(updatePost(id, post)),
+    deletePost: id => dispatch(deletePostRedux(id)),
+    updateVote: (id, vote) => dispatch(updateVote(id, vote)),
+    updateVoteComment: (id, vote) => dispatch(updateVoteComment(id, vote)),
+    addNewComment: (id, comment) => dispatch(addCommentRedux(id, comment)),
+    editCommentOpen: id => dispatch(getComment(id)),
+    deleteComment: id => dispatch(deleteCommentRedux(id))
   };
 }
 

@@ -1,11 +1,15 @@
 import { combineReducers } from "redux";
 import {
   ADD_COMMENT,
+  RECEIVE_COMMENT,
   DELETE_COMMENT,
   ADD_POST,
+  EDIT_POST_OPEN,
   DELETE_POST,
   RECEIVE_POSTS,
+  RECEIVE_POST,
   REQUEST_POSTS,
+  UPDATE_POST_REDUX,
   RECEIVE_COMMENTS,
   GETALLCOMMENTS,
   ADDPOSTREDUX,
@@ -36,6 +40,15 @@ function posts(state = [], action) {
         return p;
       });
       return updatedpost;
+    case UPDATE_POST_REDUX:
+      let newpost = state.map(p => {
+        if (p.id === post.id) {
+          p = post
+        }
+        return p;
+      });
+      return newpost;
+
     case DELETE_COMMENT_POST:
       let updatedpostdelete = state.map(p => {
         if (p.id === id) {
@@ -60,6 +73,28 @@ function posts(state = [], action) {
         return p;
       });
       return postdownvote;
+    default:
+      return state;
+  }
+}
+
+function post(state = {}, action) {
+  const { post, id } = action;
+  switch (action.type) {
+    case RECEIVE_POST: {
+      return post;
+    }
+    default:
+      return state;
+  }
+}
+
+function comment(state = {}, action) {
+  const { comment, id } = action;
+  switch (action.type) {
+    case RECEIVE_COMMENT: {
+      return comment;
+    }
     default:
       return state;
   }
@@ -96,6 +131,8 @@ function comments(state = [], action) {
 }
 
 export default combineReducers({
+  post,
   posts,
+  comment,
   comments
 });

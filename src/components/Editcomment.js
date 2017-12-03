@@ -7,7 +7,6 @@ import {
   Button
 } from "react-bootstrap";
 
-const uuidv4 = require("uuid/v4");
 
 function FieldGroup({ id, label, help, ...props }) {
   return (
@@ -19,7 +18,7 @@ function FieldGroup({ id, label, help, ...props }) {
   );
 }
 
-class Addcomment extends Component {
+class Editcomment extends Component {
   state = {
     author: "",
     body: ""
@@ -37,10 +36,8 @@ class Addcomment extends Component {
     event.preventDefault();
     const comment = this.state;
     comment.timestamp = Date.now();
-    comment.id = uuidv4();
     comment.parentId = this.props.parentId;
     const id = this.props.parentId;
-    this.props.onSubmit(id, comment);
   };
 
   render() {
@@ -73,4 +70,4 @@ class Addcomment extends Component {
   }
 }
 
-export default Addcomment;
+export default Editcomment;

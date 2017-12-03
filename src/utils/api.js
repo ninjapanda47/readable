@@ -28,6 +28,23 @@ export const getAll = () =>
     .then(res => res.json())
     .then(data => data);
 
+//get one post
+export const getPost = id =>
+  fetch(`${api}/posts/${id}`, { headers })
+    .then(res => res.json())
+    .then(data => data);
+
+//update post
+export const updatePost =  (id, post) =>
+  fetch(`${api}/posts/${id}`, {
+    method: "PUT",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(post)
+  }).then(res => res.json());
+
 //get all comments
 export const getComments = id =>
   fetch(`${api}/posts/${id}/comments`, { headers })
@@ -54,12 +71,6 @@ export const deletePost = id =>
     .then(res => res.json())
     .then(data => data);
 
-//update post
-export const updatePost = id =>
-  fetch(`${api}/${id}/posts`, { headers })
-    .then(res => res.json())
-    .then(data => data);
-
 //update vote post
 export const updateVotePost = (id, vote) =>
   fetch(`${api}/posts/${id}`, {
@@ -70,6 +81,12 @@ export const updateVotePost = (id, vote) =>
     },
     body: JSON.stringify({ option: vote })
   })
+    .then(res => res.json())
+    .then(data => data);
+
+//get one comment
+export const getComment = id =>
+  fetch(`${api}/comments/${id}`, { headers })
     .then(res => res.json())
     .then(data => data);
 
@@ -85,6 +102,17 @@ export const addComment = comment =>
   })
     .then(res => res.json())
     .then(data => data);
+
+//edit comment
+export const updateComment =  (id, comment) =>
+  fetch(`${api}/comments/${id}`, {
+    method: "PUT",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(comment)
+  }).then(res => res.json());
 
 //delete comment
 export const deleteComment = id =>
