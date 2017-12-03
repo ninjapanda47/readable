@@ -20,9 +20,18 @@ function FieldGroup({ id, label, help, ...props }) {
 
 class Editcomment extends Component {
   state = {
-    author: "",
-    body: ""
+    author: this.props.comment.author,
+    body: this.props.comment.body
   };
+
+  componentWillReceiveProps(nextProps) {
+  if(this.props != nextProps) {
+    this.setState({
+      title: nextProps.comment.author,
+    body: nextProps.comment.body
+    });
+  }
+}
 
   handleInputChange = event => {
     const value = event.target.value;
@@ -34,13 +43,18 @@ class Editcomment extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const comment = this.state;
+    const comment = {};
+    comment.body = this.state.body
     comment.timestamp = Date.now();
-    comment.parentId = this.props.parentId;
-    const id = this.props.parentId;
+    const commentId = this.props.commentId;
+    console.log(comment,commentId)
+    this.props.onSubmit(commentId,comment)
   };
 
   render() {
+
+    console.log(this.props.commentId)
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -50,7 +64,7 @@ class Editcomment extends Component {
             label="Author"
             name="author"
             placeholder="Enter text"
-            onChange={this.handleInputChange}
+            value={this.props.comment.author}
           />
           <FormGroup controlId="formControlsTextarea">
             <ControlLabel>Comment</ControlLabel>
@@ -58,6 +72,7 @@ class Editcomment extends Component {
               componentClass="textarea"
               placeholder="Leave your comment"
               name="body"
+              value={this.state.body}
               onChange={this.handleInputChange}
             />
           </FormGroup>

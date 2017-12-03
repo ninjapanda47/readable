@@ -13,10 +13,12 @@ import {
   updateVote,
   selectCategory,
   getall,
+  sortPosts,
   getAllComments,
   addPostRedux,
   getPost,
   getComment,
+  updateComment,
   updatePost,
   deletePostRedux,
   updateVoteComment
@@ -53,6 +55,11 @@ class App extends Component {
 
   getAllPosts = eventKey => {
     this.props.getAllPosts(eventKey);
+    this.setState({ posts: this.props.posts });
+  };
+
+  sortPosts = eventKey => {
+    this.props.sortPosts(eventKey);
     this.setState({ posts: this.props.posts });
   };
 
@@ -121,6 +128,11 @@ class App extends Component {
     this.props.history.push("/editcomment");
   };
 
+  updateComment = (id, comment) => {
+    this.props.updateComment(id, comment);
+    this.props.history.push("/");
+  };
+
   deleteComment = id => {
     this.props.deleteComment(id);
     this.props.history.push("/");
@@ -168,7 +180,7 @@ class App extends Component {
               eventKey={3}
               title="Order By"
               id="basic-nav-dropdown"
-              onSelect={this.getAllPosts}
+              onSelect={this.sortPosts}
             >
               <MenuItem eventKey="score" value="score">
                 Vote Score
@@ -260,7 +272,11 @@ class App extends Component {
           <Route
             path="/editcomment"
             render={() => (
-              <Editpost commentId={this.state.commentId} comment={comment} />
+              <Editcomment
+                commentId={this.state.commentId}
+                comment={comment}
+                onSubmit={this.updateComment}
+              />
             )}
           />
           <Route
@@ -333,7 +349,8 @@ function mapStateToProps({ posts, comments, post, comment }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAllPosts: eventKey => dispatch(getall(eventKey)),
+    getAllPosts: () => dispatch(getall()),
+    sortPosts: eventKey => dispatch(sortPosts(eventKey)),
     getCategoryPost: category => dispatch(selectCategory(category)),
     getPostComments: id => dispatch(getAllComments(id)),
     addNewPost: post => dispatch(addPostRedux(post)),
@@ -344,6 +361,7 @@ function mapDispatchToProps(dispatch) {
     updateVoteComment: (id, vote) => dispatch(updateVoteComment(id, vote)),
     addNewComment: (id, comment) => dispatch(addCommentRedux(id, comment)),
     editCommentOpen: id => dispatch(getComment(id)),
+    updateComment: (id, comment) => dispatch(updateComment(id, comment)),
     deleteComment: id => dispatch(deleteCommentRedux(id))
   };
 }

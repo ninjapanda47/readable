@@ -10,6 +10,7 @@ import {
   RECEIVE_POST,
   REQUEST_POSTS,
   UPDATE_POST_REDUX,
+  UPDATE_COMMENT_REDUX,
   RECEIVE_COMMENTS,
   GETALLCOMMENTS,
   ADDPOSTREDUX,
@@ -17,7 +18,9 @@ import {
   UP_VOTE_POST,
   DOWN_VOTE_POST,
   UP_VOTE_COMMENT,
-  DOWN_VOTE_COMMENT
+  DOWN_VOTE_COMMENT,
+  SORT_TIME,
+  SORT_SCORE
 } from "../actions";
 
 function posts(state = [], action) {
@@ -26,6 +29,20 @@ function posts(state = [], action) {
   switch (action.type) {
     case RECEIVE_POSTS: {
       return posts;
+    }
+    case SORT_SCORE: {
+      function compareVotes(a, b) {
+        return a.voteScore - b.voteScore;
+      }
+      let sort = state.sort(compareVotes);
+      return sort;
+    }
+    case SORT_TIME: {
+      function byTime(a, b) {
+        return a.timestamp - b.timestamp;
+      }
+      let sort = state.sort(byTime);
+      return sort;
     }
     case ADD_POST:
       return [...state, post];
@@ -43,7 +60,7 @@ function posts(state = [], action) {
     case UPDATE_POST_REDUX:
       let newpost = state.map(p => {
         if (p.id === post.id) {
-          p = post
+          p = post;
         }
         return p;
       });
@@ -109,6 +126,14 @@ function comments(state = [], action) {
     case DELETE_COMMENT:
       let update = state.filter(c => c.id !== id);
       return update;
+    case UPDATE_COMMENT_REDUX:
+      let newcomment = state.map(c => {
+        if (c.id === comment.id) {
+          c = comment;
+        }
+        return c;
+      });
+      return newcomment;
     case UP_VOTE_COMMENT:
       let commentupvote = state.map(c => {
         if (c.id === id) {

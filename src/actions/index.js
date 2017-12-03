@@ -1,12 +1,14 @@
 import * as readAPI from "../utils/api";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const RECEIVE_COMMENT = "RECEIVE_COMMENT";
+export const UPDATE_COMMENT_REDUX = "UPDATE_COMMENT_REDUX";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const GETALLCOMMENTS = "GETALLCOMMENTS";
 export const UPDATEVOTE = "UPDATEVOTE";
 export const GETALL = "GETALL";
+export const SORT_SCORE = "ADD_SCORE";
+export const SORT_TIME = "ADD_TIME";
 export const DELETE_POST = "DELETE_POST";
-export const EDIT_POST_OPEN = "EDIT_POST_OPEN";
 export const UPDATE_POST_REDUX = "UPDATE_POST_REDUX";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const RECEIVE_POST = "RECEIVE_POST";
@@ -21,11 +23,7 @@ export const DOWN_VOTE_COMMENT = "DOWN_VOTE_COMMENT";
 
 export function selectCategory(category) {
   return function(dispatch) {
-    readAPI
-      .getCategory(category)
-      .then(
-        posts => dispatch(receivePosts(posts)),
-      );
+    readAPI.getCategory(category).then(posts => dispatch(receivePosts(posts)));
   };
 }
 
@@ -43,14 +41,10 @@ function receivePost(post) {
   };
 }
 
-export function getPost(id){
-  return function(dispatch){
-    readAPI
-    .getPost(id)
-    .then(
-      post => dispatch(receivePost(post)),
-    )
-  }
+export function getPost(id) {
+  return function(dispatch) {
+    readAPI.getPost(id).then(post => dispatch(receivePost(post)));
+  };
 }
 
 function updatePostRedux(post) {
@@ -60,49 +54,44 @@ function updatePostRedux(post) {
   };
 }
 
-export function updatePost(id, post){
-  return function(dispatch){
-    readAPI
-    .updatePost(id,post)
-    .then(
-      post => dispatch(updatePostRedux(post))
-    )
+export function updatePost(id, post) {
+  return function(dispatch) {
+    readAPI.updatePost(id, post).then(post => dispatch(updatePostRedux(post)));
+  };
+}
+
+export function getall() {
+  return function(dispatch) {
+    readAPI.getAll().then(posts => dispatch(receivePosts(posts)));
+  };
+}
+
+export function sortPosts(eventKey, posts) {
+  if (eventKey === 'score') {
+    return function(dispatch){
+      console.log('score')
+      dispatch(sortScore(posts))
+    };
+  } else {
+    return function(dispatch){
+      console.log('time')
+      dispatch(sortTime(posts))
+    }
   }
 }
 
-function compareVotes(a, b) {
-  return a.voteScore - b.voteScore;
+function sortScore(posts) {
+  return {
+    type: SORT_SCORE,
+    posts
+  };
 }
 
-function byTime(a, b) {
-  return a.timestamp - b.timestamp;
-}
-
-export function getall(eventKey) {
-  if (eventKey === "score") {
-    return function(dispatch) {
-      readAPI.getAll().then(response => {
-        const allPosts = response;
-        allPosts.sort(compareVotes);
-        dispatch(receivePosts(allPosts));
-      });
-    };
-  } else if (eventKey === "time") {
-    return function(dispatch) {
-      readAPI.getAll().then(response => {
-        const allPosts = response;
-        allPosts.sort(byTime);
-        dispatch(receivePosts(allPosts));
-      });
-    };
-  } else
-    return function(dispatch) {
-      readAPI
-        .getAll()
-        .then(
-          posts => dispatch(receivePosts(posts)),
-        );
-    };
+function sortTime(posts) {
+  return {
+    type: SORT_TIME,
+    posts
+  };
 }
 
 function addPost(post) {
@@ -125,23 +114,13 @@ function deletePost(id) {
 export const deletePostRedux = id => dispatch =>
   readAPI.deletePost(id).then(dispatch(deletePost(id)));
 
-function editPostOpen(id) {
-  return {
-    type: EDIT_POST_OPEN,
-    id
-  };
-}
-
-
 //All the actions for comments
 
 export function getAllComments(id) {
   return function(dispatch) {
     readAPI
       .getComments(id)
-      .then(
-        comments => dispatch(receiveComments(comments)),
-      );
+      .then(comments => dispatch(receiveComments(comments)));
   };
 }
 
@@ -160,14 +139,10 @@ function receiveComment(comment) {
   };
 }
 
-export function getComment(id){
-  return function(dispatch){
-    readAPI
-    .getComment(id)
-    .then(
-      comment => dispatch(receiveComment(comment)),
-    )
-  }
+export function getComment(id) {
+  return function(dispatch) {
+    readAPI.getComment(id).then(comment => dispatch(receiveComment(comment)));
+  };
 }
 
 function addComment(id) {
@@ -193,6 +168,21 @@ function deleteComment(id) {
   return {
     type: DELETE_COMMENT,
     id
+  };
+}
+
+export function updateComment(id, comment) {
+  return function(dispatch) {
+    readAPI
+      .updateComment(id, comment)
+      .then(comment => dispatch(updateCommentRedux(comment)));
+  };
+}
+
+function updateCommentRedux(comment) {
+  return {
+    type: UPDATE_COMMENT_REDUX,
+    comment
   };
 }
 
