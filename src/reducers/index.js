@@ -17,6 +17,8 @@ import {
   DELETE_COMMENT_POST,
   UP_VOTE_POST,
   DOWN_VOTE_POST,
+  UP_VOTE_POST_DETAIL,
+  DOWN_VOTE_POST_DETAIL,
   UP_VOTE_COMMENT,
   DOWN_VOTE_COMMENT,
   SORT_TIME,
@@ -101,6 +103,14 @@ function post(state = {}, action) {
     case RECEIVE_POST: {
       return post;
     }
+    case UP_VOTE_POST_DETAIL: {  
+      state.voteScore++
+    }
+    return state
+    case DOWN_VOTE_POST_DETAIL: {
+      state.voteScore--
+    }
+    return state
     default:
       return state;
   }

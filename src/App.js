@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Post from "./components/Post";
+import Detail from "./components/Detail";
 import Editpost from "./components/Editpost";
 import Create from "./components/Create";
 import Comment from "./components/Comment";
@@ -21,7 +22,8 @@ import {
   updateComment,
   updatePost,
   deletePostRedux,
-  updateVoteComment
+  updateVoteComment,
+  updateVoteDetail
 } from "./actions";
 import * as readAPI from "./utils/api";
 import { Route, Link, Redirect, withRouter, Switch } from "react-router-dom";
@@ -34,6 +36,7 @@ import {
   NavDropdown,
   MenuItem
 } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 class App extends Component {
   state = {
@@ -51,6 +54,14 @@ class App extends Component {
       this.setState({ categories: data.categories });
     });
     this.props.getAllPosts();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props != nextProps) {
+      this.setState({
+        post: nextProps.post
+      });
+    }
   }
 
   getAllPosts = eventKey => {
@@ -85,6 +96,12 @@ class App extends Component {
     }));
   };
 
+  detailView = (id, category) => {
+    this.props.detailView(id);
+    this.setState({ post: this.props.post });
+    this.props.history.push("/" + category + "/" + id);
+  };
+
   createPost = post => {
     this.props.addNewPost(post);
     this.props.history.push("/");
@@ -109,6 +126,12 @@ class App extends Component {
   updateVote = (id, vote) => {
     this.props.updateVote(id, vote);
     this.setState({ posts: this.props.posts });
+  };
+
+  updateVoteDetail = (id, vote) => {
+    this.props.updateVoteDetail(id, vote);
+    this.setState({ post: this.props.post });
+    console.log(this.props.post)
   };
 
   updateVoteComment = (id, vote) => {
@@ -148,7 +171,10 @@ class App extends Component {
       comments,
       editPostOpen,
       post,
-      comment
+      comment,
+      updateVote,
+      updateVoteDetail,
+      updateVoteComment
     } = this.props;
 
     return (
@@ -162,19 +188,21 @@ class App extends Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <NavItem>
-              <Link to="/newpost">Add Post</Link>
-            </NavItem>
+            <LinkContainer to="/newpost">
+              <NavItem>Add Post</NavItem>
+            </LinkContainer>
           </Nav>
           <Nav bsStyle="pills" activeKey={1} pullRight>
             {this.state.categories.map(category => (
-              <NavItem
-                key={category.name}
-                eventKey={2}
-                onClick={e => this.selectCategory(category.name)}
-              >
-                <Link to={`/${category.name}`}>{category.name}</Link>
-              </NavItem>
+              <LinkContainer to={`/${category.name}`} key={category.name}>
+                <NavItem
+                  key={category.name}
+                  eventKey={2}
+                  onClick={e => this.selectCategory(category.name)}
+                >
+                  {category.name}
+                </NavItem>
+              </LinkContainer>
             ))}
             <NavDropdown
               eventKey={3}
@@ -199,8 +227,12 @@ class App extends Component {
               <div className="post-container">
                 <Post
                   posts={posts}
+                  post={post}
                   openModal={id => {
                     this.openModal(id);
+                  }}
+                  detailView={(id, category) => {
+                    this.detailView(id, category);
                   }}
                   editPostOpen={id => {
                     this.editPostOpen(id);
@@ -279,59 +311,118 @@ class App extends Component {
               />
             )}
           />
-          <Route
-            path="/:category"
-            render={() => (
-              <div className="post-container">
-                <Post
-                  posts={posts}
-                  openModal={id => {
-                    this.openModal(id);
-                  }}
-                  editPostOpen={id => {
-                    this.editPostOpen(id);
-                  }}
-                  deletePost={id => {
-                    this.deletePost(id);
-                  }}
-                  updateVote={(id, vote) => {
-                    this.updateVote(id, vote);
-                  }}
-                />
-                <Modal
-                  isOpen={showModal}
-                  onRequestClose={this.closeModal}
-                  contentLabel="Modal"
-                >
-                  {showModal && (
-                    <Comment
-                      comments={comments}
-                      deleteComment={id => {
-                        this.deleteComment(id);
-                      }}
-                      editComment={id => {
-                        this.editCommentOpen(id);
-                      }}
-                      updateVoteComment={(id, vote) => {
-                        this.updateVoteComment(id, vote);
-                      }}
-                    />
-                  )}
-                  <Button bsSize="small" onClick={this.closeModal}>
-                    Close
-                  </Button>
-                  <Button
-                    bsStyle="info"
-                    bsSize="small"
-                    className="addcommentbtn"
-                    onClick={e => this.props.history.push("/newcomment")}
+          <Switch>
+            <Route
+              exact
+              path="/:category"
+              render={() => (
+                <div className="post-container">
+                  <Post
+                    posts={posts}
+                    openModal={id => {
+                      this.openModal(id);
+                    }}
+                    detailView={id => {
+                      this.detailView(id);
+                    }}
+                    editPostOpen={id => {
+                      this.editPostOpen(id);
+                    }}
+                    deletePost={id => {
+                      this.deletePost(id);
+                    }}
+                    updateVote={(id, vote) => {
+                      this.updateVote(id, vote);
+                    }}
+                  />
+                  <Modal
+                    isOpen={showModal}
+                    onRequestClose={this.closeModal}
+                    contentLabel="Modal"
                   >
-                    Add a Comment
-                  </Button>
-                </Modal>
-              </div>
-            )}
-          />
+                    {showModal && (
+                      <Comment
+                        comments={comments}
+                        deleteComment={id => {
+                          this.deleteComment(id);
+                        }}
+                        editComment={id => {
+                          this.editCommentOpen(id);
+                        }}
+                        updateVoteComment={(id, vote) => {
+                          this.updateVoteComment(id, vote);
+                        }}
+                      />
+                    )}
+                    <Button bsSize="small" onClick={this.closeModal}>
+                      Close
+                    </Button>
+                    <Button
+                      bsStyle="info"
+                      bsSize="small"
+                      className="addcommentbtn"
+                      onClick={e => this.props.history.push("/newcomment")}
+                    >
+                      Add a Comment
+                    </Button>
+                  </Modal>
+                </div>
+              )}
+            />
+            <Route
+              path="/:category/:id"
+              render={() => (
+                <div className="post-container">
+                  <Detail
+                    post={post}
+                    openModal={id => {
+                      this.openModal(id);
+                    }}
+                    editPostOpen={id => {
+                      this.editPostOpen(id);
+                    }}
+                    deletePost={id => {
+                      this.deletePost(id);
+                    }}
+                    updateVote={(id, vote) => {
+                      this.updateVoteDetail(id, vote);
+                    }}
+                  />
+                  <Modal
+                    isOpen={showModal}
+                    onRequestClose={this.closeModal}
+                    contentLabel="Modal"
+                  >
+                    {showModal && (
+                      <Comment
+                        comments={comments}
+                        deleteComment={id => {
+                          this.deleteComment(id);
+                        }}
+                        editComment={id => {
+                          this.editCommentOpen(id);
+                        }}
+                        updateVoteComment={(id, vote) => {
+                          this.updateVoteComment(id, vote);
+                        }}
+                      />
+                    )}
+                    <Button bsSize="small" onClick={this.closeModal}>
+                      Close
+                    </Button>
+                    <Button
+                      bsStyle="info"
+                      bsSize="small"
+                      className="addcommentbtn"
+                      onClick={e => this.props.history.push("/newcomment")}
+                    >
+                      Add a Comment
+                    </Button>
+                  </Modal>
+                </div>
+              )}
+            />
+          </Switch>
         </Switch>
       </div>
     );
@@ -353,11 +444,13 @@ function mapDispatchToProps(dispatch) {
     sortPosts: eventKey => dispatch(sortPosts(eventKey)),
     getCategoryPost: category => dispatch(selectCategory(category)),
     getPostComments: id => dispatch(getAllComments(id)),
+    detailView: id => dispatch(getPost(id)),
     addNewPost: post => dispatch(addPostRedux(post)),
     editPostOpen: id => dispatch(getPost(id)),
     updatePost: (id, post) => dispatch(updatePost(id, post)),
     deletePost: id => dispatch(deletePostRedux(id)),
     updateVote: (id, vote) => dispatch(updateVote(id, vote)),
+    updateVoteDetail: (id, vote) => dispatch(updateVoteDetail(id, vote)),
     updateVoteComment: (id, vote) => dispatch(updateVoteComment(id, vote)),
     addNewComment: (id, comment) => dispatch(addCommentRedux(id, comment)),
     editCommentOpen: id => dispatch(getComment(id)),

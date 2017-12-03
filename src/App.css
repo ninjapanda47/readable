@@ -24,6 +24,11 @@ li {
 .postbtn {
   margin: 0 5px 5px 0;
 }
+
+.detailbtn {
+float: right;
+}
+
 .vote {
   margin: auto 5px auto 0;
 }

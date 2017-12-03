@@ -16,6 +16,8 @@ export const ADD_POST = "ADD_POST";
 export const DELETE_COMMENT_POST = "DELETE_COMMENT_POST";
 export const UP_VOTE_POST = "UP_VOTE_POST";
 export const DOWN_VOTE_POST = "DOWN_VOTE_POST";
+export const UP_VOTE_POST_DETAIL = "UP_VOTE_POST_DETAIL";
+export const DOWN_VOTE_POST_DETAIL = "DOWN_VOTE_POST_DETAIL";
 export const UP_VOTE_COMMENT = "UP_VOTE_COMMENT";
 export const DOWN_VOTE_COMMENT = "DOWN_VOTE_COMMENT";
 
@@ -211,6 +213,28 @@ function downVotePost(id) {
   return {
     type: DOWN_VOTE_POST,
     id
+  };
+}
+
+export const updateVoteDetail = (id, vote) => dispatch =>
+  readAPI.updateVotePost(id, vote).then(response => {
+    if (vote === "upVote") {
+      dispatch(upVotePostDetail())
+    } else {
+      dispatch(downVotePostDetail())
+    }
+  });
+
+
+function upVotePostDetail() {
+  return {
+    type: UP_VOTE_POST_DETAIL,
+  };
+}
+
+function downVotePostDetail() {
+  return {
+    type: DOWN_VOTE_POST_DETAIL,
   };
 }
 
