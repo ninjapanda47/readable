@@ -72,6 +72,7 @@ class Create extends Component {
               name="category"
               onChange={this.handleInputChange}
             >
+              <option value="none">Select Category</option>
               <option value="react">React</option>
               <option value="redux">Redux</option>
               <option value="udacity">Udacity</option>

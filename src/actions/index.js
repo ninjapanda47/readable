@@ -19,8 +19,8 @@ export const DOWN_VOTE_POST = "DOWN_VOTE_POST";
 export const UP_VOTE_COMMENT = "UP_VOTE_COMMENT";
 export const DOWN_VOTE_COMMENT = "DOWN_VOTE_COMMENT";
 
-//All the actions for posts
 
+//All the actions for posts
 export function selectCategory(category) {
   return function(dispatch) {
     readAPI.getCategory(category).then(posts => dispatch(receivePosts(posts)));
@@ -67,16 +67,14 @@ export function getall() {
 }
 
 export function sortPosts(eventKey, posts) {
-  if (eventKey === 'score') {
-    return function(dispatch){
-      console.log('score')
-      dispatch(sortScore(posts))
+  if (eventKey === "score") {
+    return function(dispatch) {
+      dispatch(sortScore(posts));
     };
   } else {
-    return function(dispatch){
-      console.log('time')
-      dispatch(sortTime(posts))
-    }
+    return function(dispatch) {
+      dispatch(sortTime(posts));
+    };
   }
 }
 
@@ -114,8 +112,8 @@ function deletePost(id) {
 export const deletePostRedux = id => dispatch =>
   readAPI.deletePost(id).then(dispatch(deletePost(id)));
 
-//All the actions for comments
 
+//All the actions for comments
 export function getAllComments(id) {
   return function(dispatch) {
     readAPI

@@ -35,7 +35,7 @@ export const getPost = id =>
     .then(data => data);
 
 //update post
-export const updatePost =  (id, post) =>
+export const updatePost = (id, post) =>
   fetch(`${api}/posts/${id}`, {
     method: "PUT",
     headers: {
@@ -104,7 +104,7 @@ export const addComment = comment =>
     .then(data => data);
 
 //edit comment
-export const updateComment =  (id, comment) =>
+export const updateComment = (id, comment) =>
   fetch(`${api}/comments/${id}`, {
     method: "PUT",
     headers: {
