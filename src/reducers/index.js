@@ -4,16 +4,12 @@ import {
   RECEIVE_COMMENT,
   DELETE_COMMENT,
   ADD_POST,
-  EDIT_POST_OPEN,
   DELETE_POST,
   RECEIVE_POSTS,
   RECEIVE_POST,
-  REQUEST_POSTS,
   UPDATE_POST_REDUX,
   UPDATE_COMMENT_REDUX,
   RECEIVE_COMMENTS,
-  GETALLCOMMENTS,
-  ADDPOSTREDUX,
   DELETE_COMMENT_POST,
   UP_VOTE_POST,
   DOWN_VOTE_POST,
@@ -98,7 +94,7 @@ function posts(state = [], action) {
 }
 
 function post(state = {}, action) {
-  const { post, id } = action;
+  const { post } = action;
   switch (action.type) {
     case RECEIVE_POST: {
       return post;
@@ -117,7 +113,7 @@ function post(state = {}, action) {
 }
 
 function comment(state = {}, action) {
-  const { comment, id } = action;
+  const { comment } = action;
   switch (action.type) {
     case RECEIVE_COMMENT: {
       return comment;

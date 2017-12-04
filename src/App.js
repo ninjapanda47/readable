@@ -26,7 +26,7 @@ import {
   updateVoteDetail
 } from "./actions";
 import * as readAPI from "./utils/api";
-import { Route, Link, Redirect, withRouter, Switch } from "react-router-dom";
+import { Route, Link, withRouter, Switch } from "react-router-dom";
 import "./App.css";
 import {
   Button,
@@ -57,7 +57,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props != nextProps) {
+    if (this.props !== nextProps) {
       this.setState({
         post: nextProps.post
       });
@@ -162,19 +162,12 @@ class App extends Component {
   };
 
   render() {
-    const { categories, showModal, parentId, postId } = this.state;
+    const { showModal } = this.state;
     const {
-      getAllPosts,
       posts,
-      getPostComments,
-      getCategoryPost,
       comments,
-      editPostOpen,
       post,
       comment,
-      updateVote,
-      updateVoteDetail,
-      updateVoteComment
     } = this.props;
 
     return (
