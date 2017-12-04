@@ -97,7 +97,9 @@ class App extends Component {
   };
 
   detailView = (id, category) => {
+    console.log(id, category)
     this.props.detailView(id);
+    console.log(category)
     this.setState({ post: this.props.post });
     this.props.history.push("/" + category + "/" + id);
   };
@@ -315,8 +317,8 @@ class App extends Component {
                     openModal={id => {
                       this.openModal(id);
                     }}
-                    detailView={id => {
-                      this.detailView(id);
+                    detailView={(id,category) => {
+                      this.detailView(id,category);
                     }}
                     editPostOpen={id => {
                       this.editPostOpen(id);

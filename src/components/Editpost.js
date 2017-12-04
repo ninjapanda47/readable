@@ -25,7 +25,7 @@ class Editpost extends Component {
   };
 
 componentWillReceiveProps(nextProps) {
-  if(this.props != nextProps) {
+  if(this.props !== nextProps) {
     this.setState({
       title: nextProps.post.title,
     body: nextProps.post.body
