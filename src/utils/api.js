@@ -69,7 +69,7 @@ export const deletePost = id =>
     headers
   })
     .then(res => res.json())
-    .then(data => data);
+    .catch(data => data);
 
 //update vote post
 export const updateVotePost = (id, vote) =>
