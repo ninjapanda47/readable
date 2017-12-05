@@ -99,14 +99,16 @@ function post(state = {}, action) {
     case RECEIVE_POST: {
       return post;
     }
-    case UP_VOTE_POST_DETAIL: {  
-      state.voteScore++
-    }
-    return state
-    case DOWN_VOTE_POST_DETAIL: {
-      state.voteScore--
-    }
-    return state
+    case UP_VOTE_POST_DETAIL:
+      {
+        state.voteScore++;
+      }
+      return state;
+    case DOWN_VOTE_POST_DETAIL:
+      {
+        state.voteScore--;
+      }
+      return state;
     default:
       return state;
   }

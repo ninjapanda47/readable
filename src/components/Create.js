@@ -40,6 +40,7 @@ class Create extends Component {
     const post = this.state;
     post.timestamp = Date.now();
     post.id = uuidv4();
+    post.voteScore = 0;
     console.log(post);
     this.props.onSubmit(post);
   };

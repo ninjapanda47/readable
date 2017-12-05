@@ -21,7 +21,6 @@ export const DOWN_VOTE_POST_DETAIL = "DOWN_VOTE_POST_DETAIL";
 export const UP_VOTE_COMMENT = "UP_VOTE_COMMENT";
 export const DOWN_VOTE_COMMENT = "DOWN_VOTE_COMMENT";
 
-
 //All the actions for posts
 export function selectCategory(category) {
   return function(dispatch) {
@@ -113,7 +112,6 @@ function deletePost(id) {
 
 export const deletePostRedux = id => dispatch =>
   readAPI.deletePost(id).then(dispatch(deletePost(id)));
-
 
 //All the actions for comments
 export function getAllComments(id) {
@@ -219,22 +217,21 @@ function downVotePost(id) {
 export const updateVoteDetail = (id, vote) => dispatch =>
   readAPI.updateVotePost(id, vote).then(response => {
     if (vote === "upVote") {
-      dispatch(upVotePostDetail())
+      dispatch(upVotePostDetail());
     } else {
-      dispatch(downVotePostDetail())
+      dispatch(downVotePostDetail());
     }
   });
 
-
 function upVotePostDetail() {
   return {
-    type: UP_VOTE_POST_DETAIL,
+    type: UP_VOTE_POST_DETAIL
   };
 }
 
 function downVotePostDetail() {
   return {
-    type: DOWN_VOTE_POST_DETAIL,
+    type: DOWN_VOTE_POST_DETAIL
   };
 }
 
