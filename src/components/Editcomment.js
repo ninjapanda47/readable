@@ -7,7 +7,6 @@ import {
   Button
 } from "react-bootstrap";
 
-
 function FieldGroup({ id, label, help, ...props }) {
   return (
     <FormGroup controlId={id}>
@@ -25,13 +24,13 @@ class Editcomment extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-  if(this.props !== nextProps) {
-    this.setState({
-      title: nextProps.comment.author,
-    body: nextProps.comment.body
-    });
+    if (this.props !== nextProps) {
+      this.setState({
+        title: nextProps.comment.author,
+        body: nextProps.comment.body
+      });
+    }
   }
-}
 
   handleInputChange = event => {
     const value = event.target.value;
@@ -44,16 +43,15 @@ class Editcomment extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const comment = {};
-    comment.body = this.state.body
+    comment.body = this.state.body;
     comment.timestamp = Date.now();
     const commentId = this.props.commentId;
-    console.log(comment,commentId)
-    this.props.onSubmit(commentId,comment)
+    console.log(comment, commentId);
+    this.props.onSubmit(commentId, comment);
   };
 
   render() {
-
-    console.log(this.props.commentId)
+    console.log(this.props.commentId);
 
     return (
       <div>

@@ -7,7 +7,6 @@ import {
   Button
 } from "react-bootstrap";
 
-
 function FieldGroup({ id, label, help, ...props }) {
   return (
     <FormGroup controlId={id}>
@@ -24,14 +23,14 @@ class Editpost extends Component {
     body: this.props.post.body
   };
 
-componentWillReceiveProps(nextProps) {
-  if(this.props !== nextProps) {
-    this.setState({
-      title: nextProps.post.title,
-    body: nextProps.post.body
-    });
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      this.setState({
+        title: nextProps.post.title,
+        body: nextProps.post.body
+      });
+    }
   }
-}
 
   handleInputChange = event => {
     const value = event.target.value;
@@ -43,56 +42,56 @@ componentWillReceiveProps(nextProps) {
 
   handleSubmit = event => {
     event.preventDefault();
-    const id = this.props.postId
+    const id = this.props.postId;
     const post = this.state;
-    this.props.onSubmit(id,post)
+    this.props.onSubmit(id, post);
   };
 
   render() {
-      return (
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <FieldGroup
-              id="formControlsText"
-              type="text"
-              label="Title"
-              name="title"
-              placeholder="Enter text"
-              value={this.state.title}
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <FieldGroup
+            id="formControlsText"
+            type="text"
+            label="Title"
+            name="title"
+            placeholder="Enter text"
+            value={this.state.title}
+            onChange={this.handleInputChange}
+          />
+          <FieldGroup
+            id="formControlsText"
+            type="text"
+            label="Author"
+            name="author"
+            placeholder="Enter text"
+            value={this.props.post.author}
+          />
+          <FieldGroup
+            id="formControlsText"
+            type="text"
+            label="Category"
+            name="category"
+            placeholder="Enter text"
+            value={this.props.post.category}
+          />
+          <FormGroup controlId="formControlsTextarea">
+            <ControlLabel>Post</ControlLabel>
+            <FormControl
+              componentClass="textarea"
+              placeholder="What's on your mind"
+              name="body"
+              value={this.state.body}
               onChange={this.handleInputChange}
             />
-            <FieldGroup
-              id="formControlsText"
-              type="text"
-              label="Author"
-              name="author"
-              placeholder="Enter text"
-              value={this.props.post.author}
-            />
-            <FieldGroup
-              id="formControlsText"
-              type="text"
-              label="Category"
-              name="category"
-              placeholder="Enter text"
-              value={this.props.post.category}
-            />
-            <FormGroup controlId="formControlsTextarea">
-              <ControlLabel>Post</ControlLabel>
-              <FormControl
-                componentClass="textarea"
-                placeholder="What's on your mind"
-                name="body"
-                value={this.state.body}
-                onChange={this.handleInputChange}
-              />
-            </FormGroup>
-            <Button bsStyle="primary" type="submit">
-              Submit
-            </Button>
-          </form>
-        </div>
-      );
+          </FormGroup>
+          <Button bsStyle="primary" type="submit">
+            Submit
+          </Button>
+        </form>
+      </div>
+    );
   }
 }
 
