@@ -1,4 +1,4 @@
-const api = "http://localhost:3001";
+const api = "https://rocky-tundra-53295.herokuapp.com";
 
 let token = localStorage.token;
 if (!token)
