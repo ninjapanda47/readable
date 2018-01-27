@@ -5,6 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 3. Run the server with node server
 4. Download this repository.  Npm install and npm start to install and launch the frontend application.
 
+See the finished project here.  https://secure-crag-87912.herokuapp.com/
 
   
 
