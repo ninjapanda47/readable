@@ -181,10 +181,12 @@ class App extends Component {
                 Readable
               </Link>
             </Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
+          <Navbar.Collapse>
           <Nav>
             <LinkContainer to="/newpost">
-              <NavItem>Add Post</NavItem>
+              <NavItem className="add">Add Post</NavItem>
             </LinkContainer>
           </Nav>
           <Nav bsStyle="pills" activeKey={1} pullRight>
@@ -213,6 +215,7 @@ class App extends Component {
               </MenuItem>
             </NavDropdown>
           </Nav>
+          </Navbar.Collapse>
         </Navbar>
         <Switch>
           <Route

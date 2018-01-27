@@ -1,43 +1,139 @@
-form {
-  width: 75%;
-  margin: 10px 50px;
+ul {
+  padding-left: 10px
 }
 
-li {
-  list-style-type: none;
+.container {
+  margin: 0 10px;
 }
 
-.post-container {
-  padding: 0 auto;
-}
-
-.postlist {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.post {
-  width: 30%;
+.detail {
+  width: 100%;
   margin: 10px;
 }
 
-.postbtn {
-  margin: 0 5px 5px 0;
+/*******************************************
+Default
+********************************************/
+
+@media screen and (min-width: 981px) {
+  form {
+    width: 75%;
+    margin: 10px 50px;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  .post-container {
+    padding: 0 auto;
+  }
+
+  .postlist {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .post {
+    width: 30%;
+    margin: 10px;
+  }
+
+  .postbtn {
+    margin: 0 5px 5px 0;
+  }
+
+  .detailbtn {
+    float: right;
+  }
+
+  .vote {
+    margin: auto 5px auto 0;
+  }
+
+  .commentlist {
+    margin: 10px auto;
+    padding: 5px;
+  }
+
+  .addcommentbtn {
+    margin: 5px;
+  }
 }
 
-.detailbtn {
-float: right;
+/*******************************************
+laptop layout 980
+********************************************/
+
+@media screen and (max-width: 980px) {
+  form {
+    width: 75%;
+    margin: 10px 50px;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  .post-container {
+    padding: 0 auto;
+  }
+
+  .postlist {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .post {
+    width: 30%;
+    margin: 10px;
+  }
+
+  .postbtn {
+    margin: 0 5px 5px 0;
+  }
+
+  .detailbtn {
+    float: right;
+  }
+
+  .vote {
+    margin: auto 5px auto 0;
+  }
+
+  .commentlist {
+    margin: 10px auto;
+    padding: 5px;
+  }
+
+  .addcommentbtn {
+    margin: 5px;
+  }
+
 }
 
-.vote {
-  margin: auto 5px auto 0;
+/*******************************************
+tablet layout 768
+********************************************/
+
+@media screen and (max-width: 768px) {
+
+  .post {
+    width: 45%;
+    margin: 10px;
+  }
+
 }
 
-.commentlist {
-  margin: 10px auto;
-  padding: 5px;
-}
+/*******************************************
+iphone 6 and below
+********************************************/
 
-.addcommentbtn {
-  margin: 5px;
+@media screen and (max-width: 573px) {
+
+  .post {
+    width: 100%;
+    margin: 10px;
+  }
+
 }

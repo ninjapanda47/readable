@@ -11,7 +11,7 @@ class Detail extends Component {
     }
     return (
       <ul className="postlist">
-        <Panel className="post" key={post.id} header={post.title}>
+        <Panel className="detail" key={post.id} header={post.title}>
           <h4>Author: {post.author}</h4>
           <p>{post.body}</p>
           <h4>
