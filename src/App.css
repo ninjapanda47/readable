@@ -10,6 +10,11 @@ ul {
 .detail {
   width: 100%;
   margin: 10px;
+  padding: 20px;
+}
+
+.comment {
+  padding: 20px;
 }
 
 /*******************************************
@@ -36,6 +41,7 @@ Default
   }
 
   .post {
+    padding: 20px;
     width: 30%;
     margin: 10px;
   }
